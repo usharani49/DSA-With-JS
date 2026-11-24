@@ -703,7 +703,7 @@ Error
 **Question 5. How many times does this loop execute?**
 
 for (let i = 1; i <= 4; i++) {\
-&#x20; console.log(i);\
+    &#x20; console.log(i);\
 }
 
 3
@@ -717,7 +717,7 @@ Infinite
 **Question 6. What does return do in a function?**
 
 function add(a, b) {\
-&#x20; return a + b;\
+    &#x20; return a + b;\
 }
 
 Prints the result
