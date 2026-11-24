@@ -631,6 +631,18 @@ Sends a value back to the caller
 Declares a variable
 
 
+# **Knowledge check answers**
+
+| Question | Correct answer                      | Explanation                                         |
+| -------- | ----------------------------------- | --------------------------------------------------- |
+| 1        | B. 20                               | `let` allows reassignment.                          |
+| 2        | C. object                           | `typeof null` returns `"object"`.                   |
+| 3        | B. 52                               | String concatenation happens with `+`.              |
+| 4        | B. false                            | `===` checks both value and data type.              |
+| 5        | B. 4                                | The loop runs for 1, 2, 3 and 4.                    |
+| 6        | C. Sends a value back to the caller | `return` gives the result back to the calling code. |
+
+
 # **Practical coding assignment**
 
 Open your JavaScript environment, preferably your existing VS Code setup.
@@ -646,3 +658,195 @@ Complete these five tasks yourself.
 3. Print all even numbers between 1 and 20 using a loop.
 4. Write a function that accepts two numbers and returns their multiplication.
 5. Write a function that accepts an age and returns `true` if the person is eligible to vote, otherwise `false`.
+
+# **Practical coding answers**
+
+## **Declare variables and print them**
+
+```
+let name = "Alex";
+let age = 25;
+let isEmployed = true;
+
+console.log(name);
+console.log(age);
+console.log(isEmployed);
+```
+
+Output:
+
+```
+Alex
+25
+true
+```
+
+Explanation:
+
+- `name` stores a string.
+- `age` stores a number.
+- `isEmployed` stores a boolean.
+
+## **Check whether a number is positive, negative or zero**
+
+```
+let number = -10;
+
+if (number > 0) {
+    console.log("Positive");
+} else if (number < 0) {
+    console.log("Negative");
+} else {
+    console.log("Zero");
+}
+```
+
+Output:
+
+```
+Negative
+```
+
+Explanation:
+
+There are three possible conditions:
+
+- Greater than zero: Positive.
+- Less than zero: Negative.
+- Equal to zero: Zero.
+
+## **Print even numbers between 1 and 20**
+
+```
+for (let i = 1; i <= 20; i++) {
+    if (i % 2 === 0) {
+        console.log(i);
+    }
+}
+```
+
+Output:
+
+```
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+```
+
+Explanation:
+
+- The loop starts at 1.
+- It continues until 20.
+- `%` calculates the remainder.
+- Even numbers have a remainder of zero when divided by 2.
+
+An alternative approach:
+
+```
+for (let i = 2; i <= 20; i += 2) {
+    console.log(i);
+}
+```
+
+This is more efficient because it skips odd numbers entirely.
+
+## **Function that multiplies two numbers**
+
+```
+function multiply(a, b) {
+    return a * b;
+}
+
+let result = multiply(5, 4);
+
+console.log(result);
+```
+
+Output:
+
+```
+20
+```
+
+Explanation:
+
+- `a` and `b` are parameters.
+- `5` and `4` are arguments.
+- `return` sends the multiplication result back.
+- `result` stores the returned value.
+
+## **Check voting eligibility**
+
+```
+function checkVotingEligibility(age) {
+    if (age >= 18) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+console.log(checkVotingEligibility(25));
+console.log(checkVotingEligibility(16));
+```
+
+Output:
+
+```
+true
+false
+```
+
+A shorter version:
+
+```
+function checkVotingEligibility(age) {
+    return age >= 18;
+}
+```
+
+Why does this work?
+
+The expression `age >= 18` itself evaluates to either `true` or `false`. The function returns that result directly.
+
+# **Interviewer review**
+
+| Concept       | Important point          |
+| ------------- | ------------------------ |
+| `let`         | Reassignment allowed     |
+| `const`       | Reassignment not allowed |
+| `typeof null` | Returns object           |
+| `==`          | Allows type coercion     |
+| `===`         | Strict equality          |
+| `%`           | Remainder operator       |
+| `return`      | Sends a value back       |
+| `for`         | Repeated execution       |
+| `if/else`     | Decision making          |
+
+## **One additional challenge**
+
+Try answering this without executing the code.
+
+```
+function calculate(a, b) {
+    let result = a + b;
+
+    if (result > 10) {
+        return result * 2;
+    }
+
+    return result;
+}
+
+console.log(calculate(4, 3));
+console.log(calculate(6, 5));
+```
+
+What are the two outputs?
