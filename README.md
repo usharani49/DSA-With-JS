@@ -675,6 +675,10 @@ Entry allowed
 ```
 
 
-| Operator | Meaning |
-| --- | --- |
-| \|\| | Logical OR |
+
+| Operator | Meaning | Example                             |
+| -------- | ------- | ----------------------------------- |
+| `&&`     | AND     | Both conditions must be true        |
+| `\|\|`   | OR      | At least one condition must be true |
+| `!`      | NOT     | Reverses a boolean value            |
+
