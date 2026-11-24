@@ -2508,3 +2508,29 @@ console.log(sumOfDigits(1234));  // 10
 console.log(sumOfDigits(-1234)); // 10
 console.log(sumOfDigits(0));     // 0
 ```
+
+## **Important concepts and definitions**
+
+| Concept                  | Definition                                                                                                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scope                    | The region of a program where a variable or function is accessible.                                                                                   |
+| Global scope             | A variable declared outside functions and blocks. It is accessible throughout the relevant program scope.                                             |
+| Function scope           | Variables declared inside a function are accessible within that function.                                                                             |
+| Block scope              | Variables declared with `let` or `const` inside `{ }` are accessible only within that block.                                                          |
+| Hoisting                 | JavaScript processes declarations before executing the code. This affects when variables and functions are accessible.                                |
+| Temporal Dead Zone (TDZ) | The period between entering a scope and reaching a `let` or `const` declaration. Accessing the variable during this period causes a `ReferenceError`. |
+| Shadowing                | Declaring a variable inside a scope with the same name as a variable in an outer scope. The inner variable takes precedence within its scope.         |
+| Execution context        | The environment JavaScript creates to execute code. It tracks variables, functions and the current execution.                                         |
+| Call stack               | A structure JavaScript uses to track function calls. It follows Last In, First Out (LIFO).                                                            |
+| Parameter                | A variable listed in a function definition that receives an input value.                                                                              |
+| Argument                 | The actual value passed to a function when calling it.                                                                                                |
+| Return                   | The statement that sends a result back from a function and ends that function's current execution.                                                    |
+| `console.log()`          | A method used to display information in the console. It does not return the displayed value.                                                          |
+| Modulo (`%`)             | An operator that returns the remainder after division.                                                                                                |
+| `Math.floor()`           | A JavaScript method that rounds a number down to the nearest integer.                                                                                 |
+| Recursion                | A technique where a function calls itself to solve a smaller version of a problem.                                                                    |
+| Base case                | The condition that stops a recursive function from calling itself.                                                                                    |
+| Recursive case           | The part of a recursive function that calls itself with a smaller or simpler input.                                                                   |
+| Time complexity          | A measure of how an algorithm's running time grows as its input size increases.                                                                       |
+| Space complexity         | A measure of how an algorithm's memory usage grows as its input size increases.                                                                       |
+| Big O notation           | A way to describe the growth rate of an algorithm's time or space requirements.                                                                       |
