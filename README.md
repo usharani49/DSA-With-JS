@@ -1,4 +1,4 @@
-# DSA-With-JS
+# DSA With JS
 
 # **JavaScript Fundamentals**
 
@@ -2226,3 +2226,285 @@ Hint:
 - Use `% 10` to extract the last digit.
 - Use `Math.floor(num / 10)` to remove the last digit.
 - Use a loop until the number becomes zero.
+
+# **Practical exercise answers**
+
+## **1. Scope debugging**
+
+**Given code:**
+
+```
+function calculate() {
+    let total = 100;
+}
+
+calculate();
+
+console.log(total);
+```
+
+Correct answer
+
+Output:
+
+```
+ReferenceError: total is not defined
+```
+
+**Why?**
+
+1. The function `calculate()` is called.
+2. Inside the function, `total` is declared using `let`.
+3. The variable exists only inside the function.
+4. Outside the function, JavaScript cannot access `total`.
+
+**How to fix it?**
+
+Use `return` to send the value outside the function.
+
+```
+function calculate() {
+    let total = 100;
+    return total;
+}
+
+let result = calculate();
+
+console.log(result);
+```
+
+Output:
+
+```
+100
+```
+
+Interview takeaway: Understand the difference between local variables and returned values.
+
+## **2. Hoisting prediction**
+
+**Given code:**
+
+```
+console.log(a);
+
+var a = 5;
+
+function test() {
+    console.log(a);
+    var a = 15;
+}
+
+test();
+```
+
+Correct answer
+
+Output:
+
+```
+undefined
+undefined
+```
+
+Let's understand why.
+
+**First console.log:**
+
+```
+console.log(a);
+var a = 5;
+```
+
+Because `var` is hoisted, JavaScript processes it conceptually as:
+
+```
+var a;
+
+console.log(a);
+
+a = 5;
+```
+
+So the output is `undefined`.
+
+**Inside the function:**
+
+```
+function test() {
+    console.log(a);
+    var a = 15;
+}
+```
+
+The local `var a` is hoisted within the function.
+
+Conceptually:
+
+```
+function test() {
+    var a;
+
+    console.log(a);
+
+    a = 15;
+}
+```
+
+Therefore, the second output is also `undefined`.
+
+Important interview concept: The local variable shadows the global variable throughout the function, even before its assignment.
+
+## **3. Call stack**
+
+**Given code:**
+
+```
+function a() {
+    console.log("A");
+    b();
+    console.log("B");
+}
+
+function b() {
+    console.log("C");
+    c();
+}
+
+function c() {
+    console.log("D");
+}
+
+a();
+```
+
+Correct answer
+
+Output:
+
+```
+A
+C
+D
+B
+```
+
+**Execution step by step:**
+
+| Step | Execution         | Output |
+| ---- | ----------------- | ------ |
+| 1    | `a()` starts      | A      |
+| 2    | `a()` calls `b()` |        |
+| 3    | `b()` starts      | C      |
+| 4    | `b()` calls `c()` |        |
+| 5    | `c()` starts      | D      |
+| 6    | `c()` finishes    |        |
+| 7    | `b()` finishes    |        |
+| 8    | `a()` resumes     | B      |
+
+The call stack follows LIFO, Last In, First Out.
+
+**Call stack execution**
+
+a()
+
+b()
+
+c()&#x20;
+
+Executes first to finish
+
+
+
+When c() finishes, control returns to b(), then a().
+
+Interview takeaway: When one function calls another, the calling function pauses until the called function finishes.
+
+## **4. Coding challenge: Sum of digits**
+
+**Problem:** Write a function that accepts a number and returns the sum of its digits.
+
+Example:
+
+```
+sumOfDigits(1234);
+```
+
+Expected output:
+
+```
+10
+```
+
+**Solution:**
+
+```
+function sumOfDigits(num) {
+    let sum = 0;
+
+    while (num > 0) {
+        let digit = num % 10;
+
+        sum = sum + digit;
+
+        num = Math.floor(num / 10);
+    }
+
+    return sum;
+}
+
+console.log(sumOfDigits(1234));
+```
+
+Output:
+
+```
+10
+```
+
+**Step-by-step execution:**
+
+| Iteration | Number | Extracted digit | Sum |
+| --------- | ------ | --------------- | --- |
+| 1         | 1234   | 4               | 4   |
+| 2         | 123    | 3               | 7   |
+| 3         | 12     | 2               | 9   |
+| 4         | 1      | 1               | 10  |
+
+Let's understand the two important operations.
+
+`num % 10`
+
+Extracts the last digit.
+
+Example: `1234 % 10 = 4`
+
+`Math.floor(num / 10)`
+
+Removes the last digit.
+
+Example: `Math.floor(1234 / 10) = 123`
+
+We repeat until the number becomes zero.
+
+**Improved version that handles zero and negative inputs:**
+
+```
+function sumOfDigits(num) {
+    num = Math.abs(num);
+
+    let sum = 0;
+
+    while (num > 0) {
+        let digit = num % 10;
+        sum += digit;
+        num = Math.floor(num / 10);
+    }
+
+    return sum;
+}
+
+console.log(sumOfDigits(1234));  // 10
+console.log(sumOfDigits(-1234)); // 10
+console.log(sumOfDigits(0));     // 0
+```
