@@ -673,3 +673,8 @@ Output:
 ```
 Entry allowed
 ```
+
+
+| Operator | Meaning |
+| --- | --- |
+| \|\| | Logical OR |
