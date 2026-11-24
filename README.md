@@ -1360,7 +1360,7 @@ At every iteration, we add the current number to `sum`.
 
 There is a mathematical formula:
 
-\\[ Sum = \frac{N(N+1)}{2} \\]
+Sum = (N *( N + 1)) /2
 
 ```
 function sumNumbers(n) {
@@ -1510,11 +1510,11 @@ Important: We preserve the original number because the `while` loop changes `num
 
 For example:
 
-\\[ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 \\]
+5! = 5 X 4 X 3 X 2 X 1 = 120
 
 Remember:
 
-\\[ 0! = 1 \\]
+0! = 1
 
 **Solution:**
 
