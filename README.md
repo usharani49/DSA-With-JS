@@ -850,3 +850,371 @@ console.log(calculate(6, 5));
 ```
 
 What are the two outputs?
+
+# **Previous challenge: Predict the output**
+
+Given:
+
+```
+function calculate(a, b) {
+    let result = a + b;
+
+    if (result > 10) {
+        return result * 2;
+    }
+
+    return result;
+}
+
+console.log(calculate(4, 3));
+console.log(calculate(6, 5));
+```
+
+**First execution:**
+
+```
+calculate(4, 3);
+```
+
+Step by step:
+
+1. `a = 4`, `b = 3`.
+2. `result = 4 + 3`, which gives 7.
+3. Is `7 > 10`? No.
+4. The first return is skipped.
+5. `return result` returns 7.
+
+**Second execution:**
+
+```
+calculate(6, 5);
+```
+
+Step by step:
+
+1. `a = 6`, `b = 5`.
+2. `result = 6 + 5`, which gives 11.
+3. Is `11 > 10`? Yes.
+4. `return result * 2` returns 22.
+5. The function stops immediately. The final return is not executed.
+
+**Final output**
+
+# **7**
+
+# **22**
+
+Important concept: Once JavaScript executes `return`, the function immediately terminates.
+
+# **Interview preparation**
+
+## **Question 1: Variable behaviour**
+
+What will this code print?
+
+```
+let x = 10;
+
+function test() {
+    let x = 20;
+    console.log(x);
+}
+
+test();
+
+console.log(x);
+```
+
+Answer:
+
+```
+20
+10
+```
+
+Why?
+
+The function creates its own local variable named `x`.
+
+The global `x` remains 10.
+
+This introduces an important concept called scope.
+
+- Global scope: Accessible from the surrounding global context.
+- Local scope: A variable declared inside a function is accessible within that function.
+
+## **Question 2: Predict the output**
+
+```
+console.log(1 + "2" + 3);
+console.log(1 + 2 + "3");
+console.log("10" - 5 + 2);
+```
+
+Answer:
+
+```
+123
+33
+7
+```
+
+Explanation:
+
+First:
+
+```
+1 + "2" + 3
+```
+
+- `1 + "2"` becomes `"12"`.
+- `"12" + 3` becomes `"123"`.
+
+Second:
+
+```
+1 + 2 + "3"
+```
+
+- `1 + 2` becomes `3`.
+- `3 + "3"` becomes `"33"`.
+
+Third:
+
+```
+"10" - 5 + 2
+```
+
+- `"10" - 5` becomes 5.
+- `5 + 2` becomes 7.
+
+The order of evaluation matters.
+
+## **Question 3: Understand truthy and falsy values**
+
+JavaScript converts values into booleans when they appear in conditions.
+
+Falsy values include:
+
+```
+false
+0
+-0
+0n
+""
+null
+undefined
+NaN
+```
+
+Most other values are truthy.
+
+For example:
+
+```
+if ("hello") {
+    console.log("Executed");
+}
+
+if (0) {
+    console.log("Not executed");
+}
+
+if ([]) {
+    console.log("Array executed");
+}
+```
+
+Output:
+
+```
+Executed
+Array executed
+```
+
+Important: An empty array `[]` and an empty object `{}` are truthy in JavaScript.
+
+# **Interview coding problems**
+
+## **Problem 1: Find the largest of three numbers**
+
+Write a function that accepts three numbers and returns the largest.
+
+Example:
+
+```
+findLargest(10, 25, 15);
+```
+
+Expected output:
+
+```
+25
+```
+
+Solution:
+
+```
+function findLargest(a, b, c) {
+    if (a >= b && a >= c) {
+        return a;
+    } else if (b >= a && b >= c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+
+console.log(findLargest(10, 25, 15));
+```
+
+## **Problem 2: Reverse a number**
+
+Input:
+
+```
+1234
+```
+
+Expected output:
+
+```
+4321
+```
+
+Solution:
+
+```
+function reverseNumber(num) {
+    let reversed = 0;
+
+    while (num > 0) {
+        let digit = num % 10;
+
+        reversed = reversed * 10 + digit;
+
+        num = Math.floor(num / 10);
+    }
+
+    return reversed;
+}
+
+console.log(reverseNumber(1234));
+```
+
+Output:
+
+```
+4321
+```
+
+Understand the process:
+
+| Iteration | Digit | Reversed |
+| --------- | ----- | -------- |
+| 1         | 4     | 4        |
+| 2         | 3     | 43       |
+| 3         | 2     | 432      |
+| 4         | 1     | 4321     |
+
+This is a good introduction to mathematical problem solving.
+
+Note: This basic version assumes a non-negative integer input.
+
+## **Problem 3: Check whether a number is prime**
+
+A prime number is a number greater than 1 that has exactly two factors: 1 and itself.
+
+Examples:
+
+- 2 is prime.
+- 3 is prime.
+- 4 is not prime.
+- 7 is prime.
+- 9 is not prime.
+
+Solution:
+
+```
+function isPrime(num) {
+    if (num <= 1) {
+        return false;
+    }
+
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+console.log(isPrime(7));
+console.log(isPrime(9));
+```
+
+Output:
+
+```
+true
+false
+```
+
+Why do we check only up to the square root?
+
+If a number has a factor larger than its square root, it must also have a corresponding factor smaller than its square root.
+
+This reduces unnecessary iterations.
+
+For example, checking whether 49 is prime requires testing divisors only up to 7.
+
+# **4. Additional interview concepts**
+
+Consider these two programs.
+
+**Approach A**
+
+```
+console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+```
+
+**Approach B**
+
+```
+for (let i = 1; i <= 5; i++) {
+    console.log(i);
+}
+```
+
+Both perform five print operations.
+
+But what if you need to print 1,000 numbers?
+
+The second approach scales more naturally.
+
+This leads us to Big O notation, which measures how an algorithm's resource requirements grow as input size increases.
+
+We'll study it properly later.
+
+For now, remember:
+
+| Complexity | Meaning     | Example                          |
+| ---------- | ----------- | -------------------------------- |
+| O(1)       | Constant    | Accessing an array element       |
+| O(n)       | Linear      | Visiting every element           |
+| O(n²)      | Quadratic   | Nested loops over the same input |
+| O(log n)   | Logarithmic | Binary search                    |
+
+# **Practical assessment**
+
+1. Write a function to find the smallest of three numbers.
+2. Write a function to check whether a number is even or odd.
+3. Write a program to calculate the sum of numbers from 1 to N using a loop.
+4. Write a function to count the digits in a positive integer.
+5. Write a function to check whether a number is a palindrome. Example: 121 returns true, 123 returns false.
+6. Write a function to calculate the factorial of a number. Example: 5 returns 120.
