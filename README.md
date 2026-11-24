@@ -554,104 +554,6 @@ The `%` operator returns the remainder.
 
 **Question 1. What is the output?**
 
-let x = 10;
-x = 20;
-console.log(x);
-
-10
-
-20
-
-undefined
-
-Error
-
-**Question 2. What is the output?**
-
-console.log(typeof null);
-
-null
-
-undefined
-
-object
-
-boolean
-
-**Question 3. What is the output?**
-
-console.log("5" + 2);
-
-7
-
-52
-
-Error
-
-NaN
-
-**Question 4. What is the output?**
-
-console.log(5 === "5");
-
-true
-
-false
-
-5
-
-Error
-
-**Question 5. How many times does this loop execute?**
-
-for (let i = 1; i <= 4; i++) {
-  console.log(i);
-}
-
-3
-
-4
-
-5
-
-Infinite
-
-**Question 6. What does return do in a function?**
-
-function add(a, b) {
-  return a + b;
-}
-
-Prints the result
-
-Stops the entire program
-
-Sends a value back to the caller
-
-Declares a variable
-
-# **Practical coding assignment**
-
-Open your JavaScript environment, preferably your existing VS Code setup.
-
-Create a file named:
-
-`day1-practice.js`
-
-Complete these five tasks yourself.
-
-1. Declare variables for your name, age and whether you are currently employed. Print all three.
-2. Write a program to check whether a number is positive, negative or zero.
-3. Print all even numbers between 1 and 20 using a loop.
-4. Write a function that accepts two numbers and returns their multiplication.
-5. Write a function that accepts an age and returns `true` if the person is eligible to vote, otherwise `false`.
-
-
-
-# **Day 1: Knowledge check**
-
-**Question 1. What is the output?**
-
 let x = 10;\
 x = 20;\
 console.log(x);
@@ -727,3 +629,20 @@ Stops the entire program
 Sends a value back to the caller
 
 Declares a variable
+
+
+# **Practical coding assignment**
+
+Open your JavaScript environment, preferably your existing VS Code setup.
+
+Create a file named:
+
+`day1-practice.js`
+
+Complete these five tasks yourself.
+
+1. Declare variables for your name, age and whether you are currently employed. Print all three.
+2. Write a program to check whether a number is positive, negative or zero.
+3. Print all even numbers between 1 and 20 using a loop.
+4. Write a function that accepts two numbers and returns their multiplication.
+5. Write a function that accepts an age and returns `true` if the person is eligible to vote, otherwise `false`.
