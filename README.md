@@ -407,7 +407,7 @@ Grade B
 | Operator | Meaning | Example                             |
 | -------- | ------- | ----------------------------------- |
 | `&&`     | AND     | Both conditions must be true        |
-| `||`     | OR      | At least one condition must be true |
+| `\|\|`   | OR      | At least one condition must be true |
 | `!`      | NOT     | Reverses a boolean value            |
 
 Example:
@@ -646,39 +646,3 @@ Complete these five tasks yourself.
 3. Print all even numbers between 1 and 20 using a loop.
 4. Write a function that accepts two numbers and returns their multiplication.
 5. Write a function that accepts an age and returns `true` if the person is eligible to vote, otherwise `false`.
-
-
-
-### **Logical operators**
-
-| Operator | Meaning | Example                             |
-| -------- | ------- | ----------------------------------- |
-| `&&`     | AND     | Both conditions must be true        |
-| `\\|\\|` | OR      | At least one condition must be true |
-| `!`      | NOT     | Reverses a boolean value            |
-
-Example:
-
-```
-let age = 25;
-let hasID = true;
-
-if (age >= 18 && hasID === true) {
-    console.log("Entry allowed");
-}
-```
-
-Output:
-
-```
-Entry allowed
-```
-
-
-
-| Operator | Meaning | Example                             |
-| -------- | ------- | ----------------------------------- |
-| `&&`     | AND     | Both conditions must be true        |
-| `\|\|`   | OR      | At least one condition must be true |
-| `!`      | NOT     | Reverses a boolean value            |
-
