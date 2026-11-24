@@ -1169,7 +1169,7 @@ This reduces unnecessary iterations.
 
 For example, checking whether 49 is prime requires testing divisors only up to 7.
 
-# **4. Additional interview concepts**
+# **Additional interview concepts**
 
 Consider these two programs.
 
@@ -1218,3 +1218,428 @@ For now, remember:
 4. Write a function to count the digits in a positive integer.
 5. Write a function to check whether a number is a palindrome. Example: 121 returns true, 123 returns false.
 6. Write a function to calculate the factorial of a number. Example: 5 returns 120.
+
+Here are the solutions to all six Day 1 coding assignments. I'll explain the logic behind each one, including how to approach similar problems in interviews.
+
+# **Coding assignment solutions**
+
+## **1. Find the smallest of three numbers**
+
+**Problem:** Given three numbers, return the smallest number.
+
+Example:
+
+```
+findSmallest(10, 25, 5);
+```
+
+Expected output: `5`
+
+**Solution:**
+
+```
+function findSmallest(a, b, c) {
+    if (a <= b && a <= c) {
+        return a;
+    } else if (b <= a && b <= c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+
+console.log(findSmallest(10, 25, 5));
+```
+
+Output:
+
+```
+5
+```
+
+**Explanation:**
+
+- First, check whether `a` is smaller than or equal to both other numbers.
+- If not, check whether `b` is the smallest.
+- Otherwise, return `c`.
+
+The `<=` operator also handles cases where two or more numbers are equal.
+
+## **2. Check whether a number is even or odd**
+
+**Problem:** Return whether a number is even or odd.
+
+**Solution:**
+
+```
+function checkEvenOdd(num) {
+    if (num % 2 === 0) {
+        return "Even";
+    } else {
+        return "Odd";
+    }
+}
+
+console.log(checkEvenOdd(10));
+console.log(checkEvenOdd(7));
+```
+
+Output:
+
+```
+Even
+Odd
+```
+
+**Explanation:**
+
+The `%` operator returns the remainder.
+
+- 10 % 2 = 0, so 10 is even.
+- 7 % 2 = 1, so 7 is odd.
+
+Interview tip: You can also write this in one line:
+
+```
+function checkEvenOdd(num) {
+    return num % 2 === 0 ? "Even" : "Odd";
+}
+```
+
+This uses the ternary operator.
+
+## **3. Calculate the sum of numbers from 1 to N**
+
+**Problem:** Calculate the sum of all integers from 1 to N.
+
+Example:
+
+```
+sumNumbers(5);
+```
+
+Expected calculation:
+
+`1 + 2 + 3 + 4 + 5 = 15`
+
+**Solution using a loop:**
+
+```
+function sumNumbers(n) {
+    let sum = 0;
+
+    for (let i = 1; i <= n; i++) {
+        sum = sum + i;
+    }
+
+    return sum;
+}
+
+console.log(sumNumbers(5));
+```
+
+Output:
+
+```
+15
+```
+
+**Explanation:**
+
+| Iteration | i | sum |
+| --------- | - | --- |
+| 1         | 1 | 1   |
+| 2         | 2 | 3   |
+| 3         | 3 | 6   |
+| 4         | 4 | 10  |
+| 5         | 5 | 15  |
+
+At every iteration, we add the current number to `sum`.
+
+**Interview improvement:**
+
+There is a mathematical formula:
+
+\\[ Sum = \frac{N(N+1)}{2} \\]
+
+```
+function sumNumbers(n) {
+    return n * (n + 1) / 2;
+}
+
+console.log(sumNumbers(5));
+```
+
+Output: `15`
+
+The loop takes O(n) time. The formula takes O(1) time.
+
+This is an early example of algorithm optimisation.
+
+## **4. Count the digits in a positive integer**
+
+**Problem:** Count how many digits a number contains.
+
+Example:
+
+```
+countDigits(12345);
+```
+
+Expected output: `5`
+
+**Solution:**
+
+```
+function countDigits(num) {
+    let count = 0;
+
+    while (num > 0) {
+        num = Math.floor(num / 10);
+        count++;
+    }
+
+    return count;
+}
+
+console.log(countDigits(12345));
+```
+
+Output:
+
+```
+5
+```
+
+**Explanation:**
+
+Every division by 10 removes the last digit.
+
+| Iteration | Number after division | Count |
+| --------- | --------------------- | ----- |
+| 1         | 1234                  | 1     |
+| 2         | 123                   | 2     |
+| 3         | 12                    | 3     |
+| 4         | 1                     | 4     |
+| 5         | 0                     | 5     |
+
+The loop stops when the number becomes zero.
+
+Note: This version assumes a positive integer. For a more robust interview solution that also handles zero and negative numbers:
+
+```
+function countDigits(num) {
+    num = Math.abs(num);
+
+    if (num === 0) {
+        return 1;
+    }
+
+    let count = 0;
+
+    while (num > 0) {
+        num = Math.floor(num / 10);
+        count++;
+    }
+
+    return count;
+}
+```
+
+## **5. Check whether a number is a palindrome**
+
+**Problem:** A palindrome number reads the same forwards and backwards.
+
+Examples:
+
+- 121 → true
+- 123 → false
+- 1221 → true
+- 12321 → true
+
+**Solution:**
+
+```
+function isPalindrome(num) {
+    let original = num;
+    let reversed = 0;
+
+    while (num > 0) {
+        let digit = num % 10;
+
+        reversed = reversed * 10 + digit;
+
+        num = Math.floor(num / 10);
+    }
+
+    return original === reversed;
+}
+
+console.log(isPalindrome(121));
+console.log(isPalindrome(123));
+```
+
+Output:
+
+```
+true
+false
+```
+
+**Explanation:**
+
+For input 121:
+
+| Iteration | Extracted digit | Reversed number |
+| --------- | --------------- | --------------- |
+| 1         | 1               | 1               |
+| 2         | 2               | 12              |
+| 3         | 1               | 121             |
+
+Finally:
+
+- Original number = 121
+- Reversed number = 121
+- Both are equal, so return `true`.
+
+Important: We preserve the original number because the `while` loop changes `num`.
+
+## **6. Calculate factorial of a number**
+
+**Problem:** Factorial means multiplying a number by all positive integers below it.
+
+For example:
+
+\\[ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 \\]
+
+Remember:
+
+\\[ 0! = 1 \\]
+
+**Solution:**
+
+```
+function factorial(num) {
+    let result = 1;
+
+    for (let i = 1; i <= num; i++) {
+        result = result * i;
+    }
+
+    return result;
+}
+
+console.log(factorial(5));
+console.log(factorial(0));
+```
+
+Output:
+
+```
+120
+1
+```
+
+**Explanation:**
+
+| Iteration | i | result |
+| --------- | - | ------ |
+| 1         | 1 | 1      |
+| 2         | 2 | 2      |
+| 3         | 3 | 6      |
+| 4         | 4 | 24     |
+| 5         | 5 | 120    |
+
+We initialise `result` to 1 because multiplying by 1 does not change the value.
+
+For a production-quality interview answer, validate the input as a non-negative integer. Also note that JavaScript's regular `Number` type has precision limits for large factorials.
+
+# **Interviewer's evaluation: What you should learn**
+
+These six problems introduce several important programming concepts.
+
+| Problem           | Main concept                 | Time complexity |
+| ----------------- | ---------------------------- | --------------- |
+| Smallest of three | Conditions                   | O(1)            |
+| Even or odd       | Modulo                       | O(1)            |
+| Sum of N numbers  | Loops and optimisation       | O(n) or O(1)    |
+| Count digits      | While loop and division      | O(log n)        |
+| Palindrome        | Digit extraction             | O(log n)        |
+| Factorial         | Iteration and multiplication | O(n)            |
+
+These complexities assume ordinary fixed-width number operations.
+
+# **Additional interview questions**
+
+**Question 1: What is the difference between&#x20;**`break`**&#x20;and&#x20;**`continue`**?**
+
+```
+for (let i = 1; i <= 5; i++) {
+    if (i === 3) {
+        break;
+    }
+
+    console.log(i);
+}
+```
+
+Output:
+
+```
+1
+2
+```
+
+`break` terminates the loop entirely.
+
+Now:
+
+```
+for (let i = 1; i <= 5; i++) {
+    if (i === 3) {
+        continue;
+    }
+
+    console.log(i);
+}
+```
+
+Output:
+
+```
+1
+2
+4
+5
+```
+
+`continue` skips the current iteration and proceeds to the next one.
+
+**Question 2: What is the difference between a parameter and an argument?**
+
+```
+function add(a, b) {
+    return a + b;
+}
+
+add(10, 20);
+```
+
+- `a` and `b` are parameters.
+- `10` and `20` are arguments.
+
+**Question 3: What is the difference between&#x20;**`return`**&#x20;and&#x20;**`console.log()`**?**
+
+```
+function add(a, b) {
+    return a + b;
+}
+
+let result = add(10, 20);
+
+console.log(result);
+```
+
+- `return` sends a value back from the function.
+- `console.log()` displays a value in the console.
+- They serve different purposes.
