@@ -1643,3 +1643,586 @@ console.log(result);
 - `return` sends a value back from the function.
 - `console.log()` displays a value in the console.
 - They serve different purposes.
+
+## **Scope in JavaScript**
+
+First, what is scope?
+
+Scope determines where you can access a variable or function in your code.
+
+JavaScript has three main types of scope:
+
+- Global scope
+- Function scope
+- Block scope
+### **A. Global scope**
+
+A variable declared outside functions and blocks is generally accessible throughout its containing global scope.
+
+```
+let name = "Alex";
+
+function greet() {
+    console.log(name);
+}
+
+greet();
+
+console.log(name);
+```
+
+Output:
+
+```
+Alex
+Alex
+```
+
+Why?
+
+`name` is declared outside the function. The function can access it.
+
+### **B. Function scope**
+
+Variables declared inside a function are accessible only inside that function.
+
+```
+function greet() {
+    let message = "Hello";
+
+    console.log(message);
+}
+
+greet();
+
+console.log(message);
+```
+
+Output:
+
+```
+Hello
+ReferenceError
+```
+
+Why?
+
+`message` belongs to the `greet()` function.
+
+The code outside the function cannot access it.
+
+### **C. Block scope**
+
+A block is a section of code enclosed within curly braces `{ }`.
+
+For example:
+
+```
+{
+    let age = 25;
+    const name = "Alex";
+
+    console.log(age);
+    console.log(name);
+}
+
+console.log(age);
+```
+
+Output:
+
+```
+25
+Alex
+ReferenceError
+```
+
+Why?
+
+`let` and `const` are block-scoped.
+
+They are accessible inside the block but not outside it.
+
+### **Important interview comparison**
+
+| Declaration | Scope    | Redeclaration  | Reassignment |
+| ----------- | -------- | -------------- | ------------ |
+| var         | Function | Yes            | Yes          |
+| let         | Block    | No, same scope | Yes          |
+| const       | Block    | No, same scope | No           |
+
+### **Special case: var**
+
+Unlike `let` and `const`, `var` is not block-scoped.
+
+```
+if (true) {
+    var a = 10;
+    let b = 20;
+}
+
+console.log(a);
+console.log(b);
+```
+
+Output:
+
+```
+10
+ReferenceError
+```
+
+Why?
+
+- `a` is declared using `var`, so it remains accessible outside the `if` block within the same function or global scope.
+- `b` is block-scoped, so it is unavailable outside the block.
+
+## **Hoisting in JavaScript**
+
+What is hoisting?
+
+Hoisting describes how JavaScript processes declarations before executing code within a scope.
+
+Let's understand it through examples.
+
+### **A. Hoisting with var**
+
+```
+console.log(a);
+
+var a = 10;
+```
+
+Output:
+
+```
+undefined
+```
+
+Why?
+
+JavaScript processes the `var` declaration before executing the code.
+
+Conceptually, it behaves like this:
+
+```
+var a;
+
+console.log(a);
+
+a = 10;
+```
+
+The variable exists, but its value is initially `undefined`.
+
+### **B. Hoisting with let**
+
+```
+console.log(a);
+
+let a = 10;
+```
+
+Output:
+
+```
+ReferenceError
+```
+
+Why?
+
+`let` declarations are also processed before execution, but they remain uninitialised until their declaration is evaluated.
+
+The period between entering the scope and initialising the variable is called the Temporal Dead Zone (TDZ).
+
+### **C. Hoisting with const**
+
+```
+console.log(a);
+
+const a = 10;
+```
+
+Output:
+
+```
+ReferenceError
+```
+
+`const` also has a Temporal Dead Zone.
+
+### **Interview comparison**
+
+| Declaration | Hoisted? | Access before declaration |
+| ----------- | -------- | ------------------------- |
+| var         | Yes      | Returns undefined         |
+| let         | Yes      | ReferenceError            |
+| const       | Yes      | ReferenceError            |
+
+Important: Don't say `let` and `const` are not hoisted. They are hoisted, but remain inaccessible in the TDZ before initialisation.
+
+### **D. Function hoisting**
+
+Consider this:
+
+```
+greet();
+
+function greet() {
+    console.log("Hello Google!");
+}
+```
+
+Output:
+
+```
+Hello Google!
+```
+
+Why?
+
+A function declaration is available before its position in the code.
+
+But look at this:
+
+```
+greet();
+
+var greet = function() {
+    console.log("Hello");
+};
+```
+
+Output:
+
+```
+TypeError
+```
+
+Why?
+
+The variable `greet` is hoisted and initially set to `undefined`. The function assignment happens later.
+
+Calling `undefined()` produces a TypeError.
+
+Remember the difference between function declarations and function expressions.
+
+## **JavaScript Execution Context**
+
+Now let's understand what happens when JavaScript runs your code.
+
+An execution context is the environment in which JavaScript executes code.
+
+JavaScript creates two important kinds of execution contexts:
+
+1. Global Execution Context.
+2. Function Execution Context.
+
+Let's use an example.
+
+```
+let a = 10;
+let b = 20;
+
+function add(x, y) {
+    let result = x + y;
+    return result;
+}
+
+let answer = add(a, b);
+
+console.log(answer);
+```
+
+Output:
+
+```
+30
+```
+
+What happens internally?
+
+**Step 1: Global execution context**
+
+JavaScript creates the global environment and prepares declarations.
+
+**Global variables**
+
+- `a` = 10
+- `b` = 20
+- `add` = function
+- `answer` = initially uninitialised
+
+**Step 2: Function execution context**
+
+When `add(a, b)` runs, JavaScript creates a new function execution context.
+
+**Function: add**
+
+- `x` = 10
+- `y` = 20
+- `result` = 30
+
+**Step 3: Return**
+
+The function returns 30.
+
+Its execution context is removed from the call stack.
+
+**Step 4: Global execution continues**
+
+`answer` receives 30 and `console.log(answer)` prints it.
+
+### **What is the Call Stack?**
+
+The call stack tracks which function is currently executing.
+
+Example:
+
+```
+function first() {
+    second();
+    console.log("First");
+}
+
+function second() {
+    console.log("Second");
+}
+
+first();
+```
+
+Output:
+
+```
+Second
+First
+```
+
+Why?
+
+1. `first()` is called.
+2. `first()` calls `second()`.
+3. `second()` executes first.
+4. `second()` finishes.
+5. Execution returns to `first()`.
+6. `first()` prints its message.
+
+This is called Last In, First Out (LIFO).
+
+**Call stack illustration**
+
+**first()**
+
+**second()**
+
+Currently executing
+
+second() finishes first, then first() resumes.
+
+# **4. Interview questions**
+
+### **Question 1: Scope**
+
+What is the output?
+
+```
+let x = 10;
+
+function test() {
+    let x = 20;
+
+    if (true) {
+        let x = 30;
+        console.log(x);
+    }
+
+    console.log(x);
+}
+
+test();
+
+console.log(x);
+```
+
+Answer:
+
+```
+30
+20
+10
+```
+
+Explanation:
+
+There are three separate variables named `x`, each belonging to a different scope.
+
+### **Question 2: Hoisting**
+
+Predict the output.
+
+```
+console.log(a);
+
+var a = 10;
+
+function test() {
+    console.log(a);
+    var a = 20;
+    console.log(a);
+}
+
+test();
+
+console.log(a);
+```
+
+Answer:
+
+```
+undefined
+undefined
+20
+10
+```
+
+Explanation:
+
+Inside `test()`, the local `var a` is hoisted.
+
+It shadows the global `a` throughout the function.
+
+So the first `console.log(a)` inside the function accesses the local variable, which is initially `undefined`.
+
+### **Question 3: Function hoisting**
+
+```
+sayHello();
+
+function sayHello() {
+    console.log("Hello");
+}
+
+sayHello();
+```
+
+Answer:
+
+```
+Hello
+Hello
+```
+
+Both calls work because the function declaration is available throughout its scope.
+
+### **Question 4: Call stack**
+
+Predict the output.
+
+```
+function one() {
+    console.log("One");
+    two();
+    console.log("Four");
+}
+
+function two() {
+    console.log("Two");
+    three();
+}
+
+function three() {
+    console.log("Three");
+}
+
+one();
+```
+
+Answer:
+
+```
+One
+Two
+Three
+Four
+```
+
+The call stack executes the innermost function first and returns to the previous function.
+
+# **Practical coding exercises**
+
+### **Exercise 1: Scope debugging**
+
+Find the error and explain why it happens.
+
+```
+function calculate() {
+    let total = 100;
+}
+
+calculate();
+
+console.log(total);
+```
+
+### **Exercise 2: Hoisting prediction**
+
+Without running the code, predict the output.
+
+```
+console.log(a);
+
+var a = 5;
+
+function test() {
+    console.log(a);
+    var a = 15;
+}
+
+test();
+```
+
+### **Exercise 3: Call stack**
+
+Write down the exact output.
+
+```
+function a() {
+    console.log("A");
+    b();
+    console.log("B");
+}
+
+function b() {
+    console.log("C");
+    c();
+}
+
+function c() {
+    console.log("D");
+}
+
+a();
+```
+
+### **Exercise 4: Coding challenge**
+
+Write a function that accepts a number and returns the sum of its digits.
+
+Example:
+
+```
+sumOfDigits(1234);
+```
+
+Expected output:
+
+```
+10
+```
+
+Hint:
+
+- Use `% 10` to extract the last digit.
+- Use `Math.floor(num / 10)` to remove the last digit.
+- Use a loop until the number becomes zero.
