@@ -2864,3 +2864,644 @@ Answer: `n === 0`. It stops further function calls.
 **Question 4. What happens if a recursive function has no valid stopping condition?**
 
 Answer: It keeps making function calls until the call stack limit is reached, resulting in a stack overflow error.
+
+# **Complete Big O and complexity analysis**
+
+## **First understand what we are measuring**
+
+Suppose you have an array containing 10 numbers.
+
+```
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+```
+
+Now suppose you have 10,000 numbers.
+
+An algorithm that performs 10 operations on the first input might perform 10,000 operations on the second.
+
+We use `n` to represent the input size.
+
+Complexity analysis answers two questions:
+
+1. Time complexity: How does the amount of work grow as `n` increases?
+2. Space complexity: How does the additional memory required grow as `n` increases?
+
+Important: Big O does not measure exact seconds. It describes growth as input size increases.
+
+## **The complexity classes you must know**
+
+From slower growth to faster growth, for sufficiently large n.
+
+| Complexity | Name                      | Typical pattern              |
+| ---------- | ------------------------- | ---------------------------- |
+| O(1)       | Constant                  | Direct access                |
+| O(log n)   | Logarithmic               | Repeated halving             |
+| O(√n)      | Square root               | Checking up to square root   |
+| O(n)       | Linear                    | One full traversal           |
+| O(n log n) | Linearithmic              | Efficient comparison sorting |
+| O(n + k)   | Linear in two input sizes | Processing two collections   |
+| O(n²)      | Quadratic                 | Two nested loops             |
+| O(n³)      | Cubic                     | Three nested loops           |
+| O(2ⁿ)      | Exponential               | Some recursive branching     |
+| O(n!)      | Factorial                 | Generating all permutations  |
+
+There is no single universal ranking for every expression involving multiple variables. For example, compare `n + k` and `n²` only after understanding how `n` and `k` relate.
+
+## **Learn each complexity with code**
+
+### **A. O(1), Constant time**
+
+The number of operations does not grow with input size.
+
+```
+function getElement(arr) {
+  return arr[0];
+}
+```
+
+Whether the array contains 10 or 10 lakh elements, accessing the first element takes a constant number of operations.
+
+Another example:
+
+```
+function add(a, b) {
+  return a + b;
+}
+```
+
+Time: O(1).
+
+### **B. O(log n), Logarithmic time**
+
+The input size gets divided by a fixed factor in each iteration.
+
+```
+function example(n) {
+  while (n > 1) {
+    n = Math.floor(n / 2);
+  }
+}
+```
+
+Suppose `n = 32`.
+
+```
+32 → 16 → 8 → 4 → 2 → 1
+```
+
+There are 5 iterations.
+
+If `n = 1024`, there are only 10 iterations.
+
+Why? Because:
+
+2^5=32, 2^10=1024
+
+This gives O(log n).
+
+Common examples:
+
+- Binary search.
+- Repeatedly dividing a number by 2.
+- Searching in a balanced binary search tree.
+
+**Interview trick:** Look for `i = i * 2`, `i = i / 2`, or repeatedly halving the search space.
+
+### **C. O(√n), Square-root time**
+
+Consider checking whether a number is prime.
+
+A simple method checks every number from 2 to `n - 1`.
+
+But you only need to check divisors up to the square root of `n`.
+
+Why?
+
+If a number has a divisor greater than its square root, it must also have a corresponding divisor smaller than its square root.
+
+```
+function isPrime(n) {
+  if (n <= 1) return false;
+
+  for (let i = 2; i * i <= n; i++) {
+    if (n % i === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
+
+The loop runs approximately \\(\sqrt n\\) times.
+
+Time: O(√n).
+
+**Interview trick:** Look for a loop condition like:
+
+```
+i * i <= n
+```
+
+or:
+
+```
+i <= Math.sqrt(n)
+```
+
+### **D. O(n), Linear time**
+
+One operation for each input element.
+
+```
+function printArray(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+```
+
+For `n` elements, the loop runs `n` times.
+
+Time: O(n).
+
+### **E. O(n log n), Linearithmic time**
+
+This is an important complexity for Google-style DSA interviews.
+
+It often occurs when:
+
+- You divide the input into smaller parts.
+- Each level processes approximately `n` elements.
+- The number of levels is approximately `log n`.
+
+Example: Merge Sort.
+
+Merge Sort divides an array into halves until individual elements remain. It then merges those parts in sorted order.
+
+```
+[8, 4, 2, 6]
+
+Divide:
+[8, 4] [2, 6]
+
+Divide:
+[8] [4] [2] [6]
+
+Merge:
+[4, 8] [2, 6]
+
+Final merge:
+[2, 4, 6, 8]
+```
+
+Why O(n log n)?
+
+- Number of levels: O(log n).
+- Work at each level: O(n).
+
+Therefore:
+
+O(n)* O(\log n)=O(n\log n)
+
+Time: O(n log n).
+
+Auxiliary space for a typical array-based Merge Sort: O(n).
+
+Other examples include Heap Sort and average-case Quick Sort.
+
+### **F. O(n + k), Linear time in two input sizes**
+
+You specifically asked about this.
+
+Here, `n` and `k` represent two separate input sizes.
+
+Consider this code:
+
+```
+function printTwoArrays(arr1, arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    console.log(arr1[i]);
+  }
+
+  for (let j = 0; j < arr2.length; j++) {
+    console.log(arr2[j]);
+  }
+}
+```
+
+Let:
+
+- `n` = number of elements in `arr1`.
+- `k` = number of elements in `arr2`.
+
+The first loop runs `n` times.
+
+The second loop runs `k` times.
+
+Total work:
+
+n+k
+
+Time complexity: O(n + k).
+
+**Important interview trick:** Do not automatically convert O(n + k) into O(n).
+
+You only simplify it to O(n) if you know that `k` is bounded by or grows proportionally with `n`.
+
+For example, if both arrays always have the same length, then:
+
+O(n+n)=O(2n)=O(n)
+
+But if their sizes are independent, preserve O(n + k).
+
+### **G. O(nk), Product of two independent input sizes**
+
+Consider:
+
+```
+function compareArrays(arr1, arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    for (let j = 0; j < arr2.length; j++) {
+      console.log(arr1[i], arr2[j]);
+    }
+  }
+}
+```
+
+Let:
+
+- `n` = size of the first array.
+- `k` = size of the second array.
+
+The outer loop runs `n` times.
+
+For every outer iteration, the inner loop runs `k` times.
+
+Total operations:
+
+n * k
+
+Time complexity: O(nk).
+
+If both arrays have the same size, this becomes O(n²).
+
+### **H. O(n²), Quadratic time**
+
+Two nested loops that each run `n` times.
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < n; j++) {
+    console.log(i, j);
+  }
+}
+```
+
+Total operations:
+
+n * n = n^2
+
+Time: O(n²).
+
+### **I. O(n³), Cubic time**
+
+Three nested loops, each running `n` times.
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < n; j++) {
+    for (let k = 0; k < n; k++) {
+      console.log(i, j, k);
+    }
+  }
+}
+```
+
+Total operations:
+
+n * n *n = n^3
+
+Time: O(n³).
+
+### **J. O(2ⁿ), Exponential time**
+
+This occurs in some recursive algorithms where each call creates two more calls.
+
+Example: naive recursive Fibonacci.
+
+```
+function fibonacci(n) {
+  if (n <= 1) return n;
+
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+The function repeatedly recalculates the same Fibonacci values.
+
+Time: O(2ⁿ) as a common upper-bound description.
+
+### **K. O(n!), Factorial time**
+
+This often appears when generating every possible arrangement of `n` distinct elements.
+
+For example, the permutations of `[1, 2, 3]` are:
+
+```
+123
+132
+213
+231
+312
+321
+```
+
+There are:
+
+3!= 3 * 2 = 6
+
+For `n` distinct elements, there are `n!` permutations.
+
+A common algorithm that generates all permutations takes O(n × n!) time if it also copies or outputs each length-`n` permutation. The recursive search overhead alone is often described as O(n!).
+
+## **Big O, Big Omega and Big Theta**
+
+These three notations describe bounds on how an algorithm's resource usage grows.
+
+**Big O: O**
+
+Upper bound
+
+Describes an asymptotic upper bound on growth.
+
+Example: An algorithm with O(n²) time does not grow faster than a constant multiple of n² for sufficiently large inputs.
+
+**Big Omega: Ω**
+
+Lower bound
+
+Describes an asymptotic lower bound on growth.
+
+Example: Ω(n) means the growth is at least a constant multiple of n for sufficiently large inputs.
+
+**Big Theta: Θ**
+
+Tight bound
+
+Describes an asymptotically tight bound. The growth is bounded both above and below by constant multiples of the same function.
+
+Example: Θ(n) means the growth rate is linear.
+
+### **Understand with one code example**
+
+```
+function search(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+```
+
+Assume the array has `n` elements.
+
+| Case         | Situation                                                                 | Time |
+| ------------ | ------------------------------------------------------------------------- | ---- |
+| Best case    | Target is at the first position                                           | Θ(1) |
+| Average case | Target is somewhere in the middle on average, assuming a uniform position | Θ(n) |
+| Worst case   | Target is at the end or absent                                            | Θ(n) |
+
+For this algorithm:
+
+- Worst-case time: O(n).
+- Best-case time: Ω(1).
+- Worst-case growth is also Θ(n), because it takes linear time in the worst case.
+
+**Important distinction:** O, Ω and Θ describe mathematical bounds. Best case, average case and worst case describe which input situation you are analysing. They are related, but they are not interchangeable.
+
+For example, saying "Big O always means worst case" is an oversimplification. In interviews, people often ask for worst-case Big O, so state the case you are analysing.
+
+## **Time complexity tricks for coding interviews**
+
+### **Pattern 1: One loop**
+
+```
+for (let i = 0; i < n; i++) {
+  // work
+}
+```
+
+Answer: O(n).
+
+### **Pattern 2: Two separate loops**
+
+```
+for (let i = 0; i < n; i++) {
+  // work
+}
+
+for (let j = 0; j < n; j++) {
+  // work
+}
+```
+
+Answer:
+
+\\[ O(n+n)=O(2n)=O(n) \\]
+
+Remember: Add sequential loops.
+
+### **Pattern 3: Nested loops**
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < n; j++) {
+    // work
+  }
+}
+```
+
+Answer: O(n²).
+
+Remember: Multiply nested loops.
+
+### **Pattern 4: Different input sizes**
+
+```
+for (let i = 0; i < n; i++) {
+  // work
+}
+
+for (let j = 0; j < k; j++) {
+  // work
+}
+```
+
+Answer: O(n + k).
+
+Do not assume `n` and `k` are equal.
+
+### **Pattern 5: Nested loops with different sizes**
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < k; j++) {
+    // work
+  }
+}
+```
+
+Answer: O(nk).
+
+### **Pattern 6: Loop that doubles**
+
+```
+for (let i = 1; i < n; i *= 2) {
+  // work
+}
+```
+
+Answer: O(log n).
+
+The values are:
+
+```
+1 → 2 → 4 → 8 → 16 → 32
+```
+
+### **Pattern 7: Loop that halves**
+
+```
+for (let i = n; i > 1; i = Math.floor(i / 2)) {
+  // work
+}
+```
+
+Answer: O(log n).
+
+### **Pattern 8: Nested loops with a changing inner limit**
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < i; j++) {
+    // work
+  }
+}
+```
+
+This is a common interview trap.
+
+The inner loop does not run `n` times on every iteration.
+
+It runs:
+
+```
+0 + 1 + 2 + 3 + ... + (n - 1)
+```
+
+Using the arithmetic series formula:
+
+(n(n-1))/2
+
+Remove constants and lower-order terms.
+
+Answer: O(n²).
+
+### **Pattern 9: A loop containing a logarithmic loop**
+
+```
+for (let i = 0; i < n; i++) {
+  for (let j = 1; j < n; j *= 2) {
+    // work
+  }
+}
+```
+
+- Outer loop: O(n).
+- Inner loop: O(log n).
+
+Multiply them:
+
+O(n\log n)
+
+### **Pattern 10: A loop followed by a nested loop**
+
+```
+for (let i = 0; i < n; i++) {
+  // work
+}
+
+for (let i = 0; i < n; i++) {
+  for (let j = 0; j < n; j++) {
+    // work
+  }
+}
+```
+
+Total:
+
+O(n+n^2)
+
+Keep the dominant term.
+
+Answer: O(n²).
+
+## **7. Time and space complexity together**
+
+Interviewers often ask for both. Practise stating them separately.
+
+| Algorithm                      | Time              | Auxiliary space |
+| ------------------------------ | ----------------- | --------------- |
+| Access first array element     | O(1)              | O(1)            |
+| Find maximum in an array       | O(n)              | O(1)            |
+| Create a copy of an array      | O(n)              | O(n)            |
+| Compare every pair in an array | O(n²)             | O(1)            |
+| Binary search, iterative       | O(log n)          | O(1)            |
+| Binary search, recursive       | O(log n)          | O(log n)        |
+| Merge Sort on an array         | O(n log n)        | O(n)            |
+| Naive recursive Fibonacci      | O(2ⁿ) upper bound | O(n)            |
+
+The key lesson: An algorithm with good time complexity might still consume more memory. You need to evaluate both.
+
+## **Simplification rules you must memorise**
+
+These rules appear frequently in interview questions.
+
+| Expression     | Simplified result | Reason                         |
+| -------------- | ----------------- | ------------------------------ |
+| O(5n)          | O(n)              | Ignore constants               |
+| O(10n + 20)    | O(n)              | Keep dominant growth           |
+| O(n² + n)      | O(n²)             | n² grows faster                |
+| O(n³ + n² + n) | O(n³)             | Keep highest-order term        |
+| O(n + n)       | O(n)              | Combine terms                  |
+| O(n × n)       | O(n²)             | Multiply nested work           |
+| O(n + k)       | O(n + k)          | Independent input sizes        |
+| O(n × k)       | O(nk)             | Independent nested input sizes |
+
+## **Big O revision sheet**
+
+**Time complexity patterns**
+
+| Code pattern                                | Complexity  |
+| ------------------------------------------- | ----------- |
+| Direct access                               | O(1)        |
+| Loop through n elements                     | O(n)        |
+| Repeatedly halve n                          | O(log n)    |
+| Check divisors up to √n                     | O(√n)       |
+| Divide and process all n elements per level | O(n log n)  |
+| Two independent sequential loops            | O(n + k)    |
+| Nested loops over n and k                   | O(nk)       |
+| Two full nested n loops                     | O(n²)       |
+| Three full nested n loops                   | O(n³)       |
+| Two recursive branches                      | Often O(2ⁿ) |
+| Generate all permutations                   | Often O(n!) |
+
+**Asymptotic notation**
+
+- O: Upper bound.
+- Ω: Lower bound.
+- Θ: Tight bound.
