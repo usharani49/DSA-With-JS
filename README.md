@@ -2993,7 +2993,7 @@ function isPrime(n) {
 }
 ```
 
-The loop runs approximately \\(\sqrt n\\) times.
+The loop runs approximately (√n) times.
 
 Time: O(√n).
 
@@ -3026,8 +3026,6 @@ For `n` elements, the loop runs `n` times.
 Time: O(n).
 
 ### **E. O(n log n), Linearithmic time**
-
-This is an important complexity for Google-style DSA interviews.
 
 It often occurs when:
 
@@ -3311,7 +3309,7 @@ for (let j = 0; j < n; j++) {
 
 Answer:
 
-\\[ O(n+n)=O(2n)=O(n) \\]
+O(n+n)=O(2n)=O(n)
 
 Remember: Add sequential loops.
 
@@ -3450,7 +3448,7 @@ Keep the dominant term.
 
 Answer: O(n²).
 
-## **7. Time and space complexity together**
+## **Time and space complexity together**
 
 Interviewers often ask for both. Practise stating them separately.
 
