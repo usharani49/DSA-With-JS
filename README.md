@@ -3424,7 +3424,7 @@ for (let i = 0; i < n; i++) {
 
 Multiply them:
 
-O(n\log n)
+O(n log n)
 
 ### **Pattern 10: A loop followed by a nested loop**
 
