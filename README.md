@@ -3503,3 +3503,204 @@ These rules appear frequently in interview questions.
 - O: Upper bound.
 - Ω: Lower bound.
 - Θ: Tight bound.
+
+## **Big O practice**
+
+### **Level 1: Basic**
+
+**Question 1. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    console.log(i);
+  }
+}
+```
+
+Answer: O(n).
+
+Reason: The loop executes `n` times.
+
+**Question 2. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    console.log(i);
+  }
+
+  for (let j = 0; j < n; j++) {
+    console.log(j);
+  }
+}
+```
+
+Answer: O(n).
+
+Reason:
+
+O(n+n)=O(2n)=O(n)
+
+**Question 3. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 1; i < n; i *= 2) {
+    console.log(i);
+  }
+}
+```
+
+Answer: O(log n).
+
+Reason: The value doubles each time.
+
+### **Level 2: Intermediate**
+
+**Question 4. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer: O(n²).
+
+Reason: `n` iterations multiplied by `n` iterations.
+
+**Question 5. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    for (let j = 1; j < n; j *= 2) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer: O(n log n).
+
+Reason:
+
+- Outer loop: O(n).
+- Inner loop: O(log n).
+- Combined: O(n log n).
+
+**Question 6. Find the time complexity.**
+
+```
+function example(arr1, arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    console.log(arr1[i]);
+  }
+
+  for (let j = 0; j < arr2.length; j++) {
+    console.log(arr2[j]);
+  }
+}
+```
+
+Answer: O(n + k).
+
+Reason: The two arrays have independent sizes. The loops execute sequentially.
+
+### **Level 3: Interview-style traps**
+
+**Question 7. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < i; j++) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer: O(n²).
+
+Reason:
+
+The inner loop runs:
+
+0+1+2+...+(n-1)
+
+Using the sum formula:
+
+(n(n-1))/2
+
+After simplification, O(n²).
+
+**Question 8. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = 1; i < n; i *= 2) {
+    for (let j = 0; j < n; j++) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer: O(n log n).
+
+Reason:
+
+- Outer loop: O(log n).
+- Inner loop: O(n).
+- Combined: O(n log n).
+
+**Question 9. Find the time complexity.**
+
+```
+function example(n) {
+  for (let i = n; i > 0; i--) {
+    for (let j = 1; j < n; j *= 2) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer: O(n log n).
+
+Reason: The outer loop runs `n` times. The inner loop runs log n times.
+
+**Question 10. Find the time complexity.**
+
+```
+function example(n) {
+  if (n <= 1) return;
+
+  example(n / 2);
+  example(n / 2);
+}
+```
+
+Answer: O(n).
+
+Reason: Each call creates two calls, but the input size halves. The recurrence is:
+
+T(n)=2T(n/2)+O(1)
+
+This produces O(n) total work.
+
+## **Level 4: Space complexity**
+
+| Code                       | Auxiliary space | Reason                   |
+| -------------------------- | --------------- | ------------------------ |
+| `let total = 0`            | O(1)            | Fixed variable           |
+| `new Array(n)`             | O(n)            | Array grows with n       |
+| `new Array(n * n)`         | O(n²)           | Stores n² elements       |
+| Recursive call depth n     | O(n)            | n active calls           |
+| Recursive call depth log n | O(log n)        | Logarithmic active calls |
