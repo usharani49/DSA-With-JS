@@ -2534,3 +2534,333 @@ console.log(sumOfDigits(0));     // 0
 | Time complexity          | A measure of how an algorithm's running time grows as its input size increases.                                                                       |
 | Space complexity         | A measure of how an algorithm's memory usage grows as its input size increases.                                                                       |
 | Big O notation           | A way to describe the growth rate of an algorithm's time or space requirements.                                                                       |
+
+## **Recursion**
+
+### **What is recursion?**
+
+Recursion is a programming technique in which a function calls itself to solve a problem.
+
+Instead of solving the entire problem at once, the function breaks it into smaller versions of the same problem.
+
+Consider this task:
+
+Print numbers from 5 down to 1.
+
+You can solve it using a loop:
+
+```
+for (let i = 5; i >= 1; i--) {
+  console.log(i);
+}
+```
+
+You can also solve it using recursion:
+
+```
+function countDown(n) {
+  if (n === 0) {
+    return;
+  }
+
+  console.log(n);
+  countDown(n - 1);
+}
+
+countDown(5);
+```
+
+Output:
+
+```
+5
+4
+3
+2
+1
+```
+
+### **Two essential parts of recursion**
+
+Every properly designed recursive function needs two parts.
+
+**Base case**
+
+The condition that stops the function from calling itself.
+
+```
+if (n === 0) {
+  return;
+}
+```
+
+Without a base case, the function keeps calling itself until JavaScript runs out of call stack space.
+
+**Recursive case**
+
+The part where the function calls itself with a smaller or simpler input.
+
+```
+countDown(n - 1);
+```
+
+Here, `n` decreases by one each time. This moves the function towards the base case.
+
+### **Understand how recursion executes**
+
+For this call:
+
+```
+countDown(3);
+```
+
+The execution happens like this:
+
+## **Function calls**
+
+1. `countDown(3)` prints 3 and calls `countDown(2)`.
+2. `countDown(2)` prints 2 and calls `countDown(1)`.
+3. `countDown(1)` prints 1 and calls `countDown(0)`.
+4. `countDown(0)` reaches the base case and returns.
+
+Output: 3, 2, 1
+
+Each function call gets its own execution context. The call stack tracks these calls until they return.
+
+### **Recursion example: Factorial**
+
+First, understand factorial.
+
+The factorial of a positive integer is the product of all positive integers from 1 up to that number.
+
+For example:
+
+\\[ 4! = 4 \times 3 \times 2 \times 1 = 24 \\]
+
+Special rule:
+
+\\[ 0! = 1 \\]
+
+Now let's write a recursive function.
+
+```
+function factorial(n) {
+  if (n === 0 || n === 1) {
+    return 1;
+  }
+
+  return n * factorial(n - 1);
+}
+
+console.log(factorial(4));
+```
+
+Output:
+
+```
+24
+```
+
+**How does&#x20;**`factorial(4)`**&#x20;work?**
+
+The function keeps calling itself:
+
+```
+factorial(4)
+4 * factorial(3)
+
+factorial(3)
+3 * factorial(2)
+
+factorial(2)
+2 * factorial(1)
+
+factorial(1)
+Returns 1
+```
+
+Now the calls return in reverse order:
+
+```
+factorial(1) = 1
+factorial(2) = 2 * 1 = 2
+factorial(3) = 3 * 2 = 6
+factorial(4) = 4 * 6 = 24
+```
+
+**Remember the two directions**
+
+Going down
+
+`4 → 3 → 2 → 1`
+
+Returning
+
+`1 → 2 → 6 → 24`
+
+### **Recursion versus iteration**
+
+Iteration means repeating instructions using loops.
+
+Recursion means repeating work through function calls.
+
+| Factor             | Iteration      | Recursion       |
+| ------------------ | -------------- | --------------- |
+| Repetition         | Loops          | Function calls  |
+| Stopping condition | Loop condition | Base case       |
+| Memory             | Usually less   | Uses call stack |
+| Common risk        | Infinite loop  | Stack overflow  |
+
+Both approaches solve many of the same problems. Recursion is especially useful for trees, graphs and divide-and-conquer algorithms.
+
+### **Common recursion mistakes**
+
+**Mistake 1: Missing base case**
+
+```
+function test(n) {
+  console.log(n);
+  test(n - 1);
+}
+```
+
+This function never stops on its own. It eventually causes a stack overflow.
+
+**Mistake 2: Not moving towards the base case**
+
+```
+function test(n) {
+  if (n === 0) return;
+
+  test(n);
+}
+```
+
+The value never changes. The base case is never reached.
+
+**Mistake 3: Forgetting to return the recursive result**
+
+```
+function factorial(n) {
+  if (n === 1) return 1;
+
+  n * factorial(n - 1);
+}
+```
+
+This function calculates the multiplication but does not return the result to its caller. The correct statement is:
+
+```
+return n * factorial(n - 1);
+```
+
+### **Another interview example: Sum of numbers using recursion**
+
+Task: Find the sum of numbers from 1 to 5.
+
+Expected result:
+
+\\[ 1+2+3+4+5=15 \\]
+
+Code:
+
+```
+function sum(n) {
+  if (n === 0) {
+    return 0;
+  }
+
+  return n + sum(n - 1);
+}
+
+console.log(sum(5));
+```
+
+Output:
+
+```
+15
+```
+
+Execution:
+
+```
+sum(5) = 5 + sum(4)
+sum(4) = 4 + sum(3)
+sum(3) = 3 + sum(2)
+sum(2) = 2 + sum(1)
+sum(1) = 1 + sum(0)
+sum(0) = 0
+```
+
+Returning:
+
+```
+1 + 0  = 1
+2 + 1  = 3
+3 + 3  = 6
+4 + 6  = 10
+5 + 10 = 15
+```
+
+### **Recursion practice questions**
+
+These are useful for checking your understanding.
+
+**Question 1. Predict the output.**
+
+```
+function print(n) {
+  if (n === 0) return;
+
+  console.log(n);
+  print(n - 1);
+}
+
+print(4);
+```
+
+Answer:
+
+```
+4
+3
+2
+1
+```
+
+**Question 2. Predict the output.**
+
+```
+function calculate(n) {
+  if (n === 1) return 1;
+
+  return n + calculate(n - 1);
+}
+
+console.log(calculate(4));
+```
+
+Answer:
+
+```
+10
+```
+
+Because \\(4+3+2+1=10\\).
+
+**Question 3. What is the base case?**
+
+```
+function powerOfTwo(n) {
+  if (n === 0) return 1;
+
+  return 2 * powerOfTwo(n - 1);
+}
+```
+
+Answer: `n === 0`. It stops further function calls.
+
+**Question 4. What happens if a recursive function has no valid stopping condition?**
+
+Answer: It keeps making function calls until the call stack limit is reached, resulting in a stack overflow error.
