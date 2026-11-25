@@ -2635,11 +2635,11 @@ The factorial of a positive integer is the product of all positive integers from
 
 For example:
 
-\\[ 4! = 4 \times 3 \times 2 \times 1 = 24 \\]
+4! = 4 * 3 * 2 * 1 = 24
 
 Special rule:
 
-\\[ 0! = 1 \\]
+0! = 1
 
 Now let's write a recursive function.
 
@@ -2760,7 +2760,7 @@ Task: Find the sum of numbers from 1 to 5.
 
 Expected result:
 
-\\[ 1+2+3+4+5=15 \\]
+1+2+3+4+5=15
 
 Code:
 
@@ -2847,7 +2847,7 @@ Answer:
 10
 ```
 
-Because \\(4+3+2+1=10\\).
+Because 4+3+2+1=10.
 
 **Question 3. What is the base case?**
 
