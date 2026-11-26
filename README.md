@@ -3707,8 +3707,6 @@ This produces O(n) total work.
 
 ## **Space complexity**
 
-Space complexity is another area where interviewers expect clear reasoning.
-
 First, understand two terms.
 
 **Input space:** Memory occupied by the input provided to the algorithm.
