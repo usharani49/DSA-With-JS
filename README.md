@@ -5443,3 +5443,200 @@ function test(n) {\
 &#x20;   if (n <= 1) return;\
 &#x20;   test(Math.floor(n / 2));\
 }
+
+# **Practice questions Answers**
+
+## **Question 1: Single loop**
+
+```
+function test(n) {
+    for (let i = 1; i <= n; i++) {
+        console.log(i);
+    }
+}
+```
+
+Time complexity: Θ(n)
+
+Reason:
+
+- The loop starts at 1.
+- It runs until `i` reaches `n`.
+- Total iterations = `n`.
+- Each iteration performs constant-time work.
+
+Auxiliary space: O(1)
+
+Reason:
+
+- Only the variable `i` is used.
+- No additional data structure is created.
+
+## **Question 2: Creating an array**
+
+```
+function test(n) {
+    let arr = [];
+
+    for (let i = 0; i < n; i++) {
+        arr.push(i);
+    }
+
+    return arr;
+}
+```
+
+Time complexity: Θ(n)
+
+Reason:
+
+- The loop executes `n` times.
+- Each `push` takes amortized O(1) time.
+- Total time grows linearly.
+
+Auxiliary space: O(n)
+
+Reason:
+
+- The new array stores `n` elements.
+- Its memory grows with the input size.
+
+Note: The returned array is output space. If an interviewer asks for auxiliary space excluding output, the answer is O(1). If they count the newly allocated result as extra memory, it is O(n). State your convention.
+
+## **Question 3: Doubling loop**
+
+```
+function test(n) {
+    for (let i = 1; i < n; i *= 2) {
+        console.log(i);
+    }
+}
+```
+
+Time complexity: Θ(log n)
+
+Reason:
+
+For `n = 16`, the values are:
+
+`1 → 2 → 4 → 8`
+
+The variable doubles every iteration.
+
+After `k` iterations:
+
+i=2^k
+
+The loop stops when:
+
+2^k >= n
+
+Therefore:
+
+k ~= log_2 n
+
+Auxiliary space: O(1)
+
+Reason:
+
+- Only the variable `i` is used.
+- No additional data structure is created.
+
+## **Question 4: Three nested loops**
+
+```
+function test(n) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            for (let k = 0; k < 5; k++) {
+                console.log(i, j, k);
+            }
+        }
+    }
+}
+```
+
+Time complexity: Θ(n²)
+
+Reason:
+
+- First loop: `n` iterations.
+- Second loop: `n` iterations for each outer iteration.
+- Third loop: exactly 5 iterations.
+
+Total operations:
+
+n * n * 5 = 5n^2
+
+Ignore the constant 5.
+
+Theta(n^2)
+
+Auxiliary space: O(1)
+
+Reason:
+
+- Only three loop variables are used.
+- No additional data structure grows with `n`.
+
+Important interview trick: Three nested loops do not automatically mean O(n³). Check the iteration count of each loop. A fixed loop contributes O(1).
+
+## **Question 5: Recursive halving**
+
+```
+function test(n) {
+    if (n <= 1) return;
+
+    test(Math.floor(n / 2));
+}
+```
+
+Time complexity: Θ(log n)
+
+Reason:
+
+Suppose `n = 16`.
+
+The recursive calls are:
+
+`16 → 8 → 4 → 2 → 1`
+
+Each call halves the input.
+
+After `k` calls:
+
+n/(2^k)=1
+
+Therefore:
+
+2^k=n
+
+k=log_2 n
+
+So the number of recursive calls grows logarithmically.
+
+Auxiliary space: O(log n)
+
+Reason:
+
+- Each recursive call occupies a stack frame.
+- The calls remain active until the base case returns.
+- Maximum recursion depth is proportional to log n.
+
+## **Final answer table**
+
+| Question              | Time complexity | Auxiliary space              |
+| --------------------- | --------------- | ---------------------------- |
+| 1. Single loop        | Θ(n)            | O(1)                         |
+| 2. New array          | Θ(n)            | O(n), excluding output: O(1) |
+| 3. Doubling loop      | Θ(log n)        | O(1)                         |
+| 4. Three nested loops | Θ(n²)           | O(1)                         |
+| 5. Recursive halving  | Θ(log n)        | O(log n)                     |
+
+## **Five rules to remember**
+
+1. A loop running `n` times usually takes Θ(n).
+2. A loop doubling or halving its variable usually takes Θ(log n).
+3. Nested independent loops multiply their iteration counts.
+4. A fixed number of variables uses O(1) auxiliary space.
+5. Recursive space depends on maximum active recursion depth, not simply the total number of calls.
