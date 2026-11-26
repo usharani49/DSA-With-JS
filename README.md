@@ -5932,3 +5932,251 @@ Remember these three terms:
 - Best case: Minimum operations for an input of size `n`.
 - Average case: Expected operations under a specified input distribution.
 - Worst case: Maximum operations for an input of size `n`.
+
+# **Complexity with conditions and early exits**
+
+## **Conditional statements**
+
+Consider:
+
+```
+function example(n) {
+    if (n > 0) {
+        for (let i = 0; i < n; i++) {
+            console.log(i);
+        }
+    } else {
+        console.log("Invalid");
+    }
+}
+```
+
+How do we calculate the time complexity?
+
+There are two paths.
+
+Path 1: `n > 0`
+
+- The loop executes `n` times.
+- Time: Θ(n).
+
+Path 2: `n <= 0`
+
+- Only one print statement executes.
+- Time: Θ(1).
+
+Overall worst-case time complexity: O(n).
+
+Best-case time complexity: Θ(1), if the input permits the second branch.
+
+Important rule:
+
+When an algorithm has alternative branches, calculate each branch separately. For worst-case complexity, consider the branch that takes the most time.
+
+## **Sequential loops versus alternative branches**
+
+Example A:
+
+```
+function example(n) {
+    for (let i = 0; i < n; i++) {
+        console.log(i);
+    }
+
+    for (let j = 0; j < n; j++) {
+        console.log(j);
+    }
+}
+```
+
+These loops execute one after another.
+
+n+n=2n
+
+Time complexity: Θ(n).
+
+Example B:
+
+```
+function example(n) {
+    if (n > 10) {
+        for (let i = 0; i < n; i++) {
+            console.log(i);
+        }
+    } else {
+        for (let j = 0; j < n * n; j++) {
+            console.log(j);
+        }
+    }
+}
+```
+
+Only one branch executes.
+
+- First branch: Θ(n).
+- Second branch: Θ(n²).
+- Worst-case: Θ(n²).
+
+Do not add the branches. They are alternatives.
+
+## **Early termination inside a loop**
+
+```
+function findNumber(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === target) {
+            return true;
+        }
+    }
+
+    return false;
+}
+```
+
+The loop might stop before visiting every element.
+
+| Situation              | Iterations | Time |
+| ---------------------- | ---------- | ---- |
+| First element matches  | 1          | Θ(1) |
+| Middle element matches | About n/2  | Θ(n) |
+| Last element matches   | n          | Θ(n) |
+| Target absent          | n          | Θ(n) |
+
+The middle position still gives Θ(n), because asymptotic analysis ignores constant factors.
+
+## **Early exit with a nested loop**
+
+```
+function findPair(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] === arr[j] && i !== j) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+```
+
+Best case:
+
+- A matching pair is found almost immediately.
+- Θ(1).
+
+Worst case:
+
+- No matching pair exists.
+- Both loops complete.
+- Θ(n²).
+
+Auxiliary space: O(1).
+
+## **Different branches with different complexities**
+
+```
+function process(n) {
+    if (n % 2 === 0) {
+        for (let i = 0; i < n; i++) {
+            console.log(i);
+        }
+    } else {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                console.log(i, j);
+            }
+        }
+    }
+}
+```
+
+There are two possibilities.
+
+Even `n`:
+
+- One loop.
+- Θ(n).
+
+Odd `n`:
+
+- Two nested loops.
+- Θ(n²).
+
+Worst-case complexity: Θ(n²).
+
+Best-case complexity: Θ(n).
+
+The key is to inspect which inputs trigger each branch.
+
+## **A useful interview method**
+
+When you see code, follow this sequence:
+
+1. Identify all loops.
+2. Check whether they run sequentially or are nested.
+3. Identify every conditional branch.
+4. Check whether a return or break stops execution early.
+5. Calculate the complexity of each possible path.
+6. Report best-case and worst-case complexity when requested.
+7. Calculate auxiliary space separately.
+
+# **Practice questions**
+
+For each snippet, calculate best-case time, worst-case time and auxiliary space.
+
+**Question 1**
+
+function test(n) {\
+&#x20;   if (n > 100) {\
+&#x20;       for (let i = 0; i < n; i++) console.log(i);\
+&#x20;   } else {\
+&#x20;       console.log(n);\
+&#x20;   }\
+}
+
+Compare the two branches.
+
+**Question 2**
+
+function test(arr, target) {\
+&#x20;   for (let i = 0; i < arr.length; i++) {\
+&#x20;       if (arr[i] === target) break;\
+&#x20;   }\
+}
+
+Consider a match at the first position and no match at all.
+
+**Question 3**
+
+function test(n) {\
+&#x20;   for (let i = 0; i < n; i++) {\
+&#x20;       if (i === 5) break;\
+&#x20;       console.log(i);\
+&#x20;   }\
+}
+
+Does the loop always run n times? What happens when n is smaller or larger than 5?
+
+**Question 4**
+
+function test(n) {\
+&#x20;   if (n % 2 === 0) {\
+&#x20;       return n;\
+&#x20;   }\
+&#x20;   for (let i = 0; i < n; i++) {\
+&#x20;       console.log(i);\
+&#x20;   }\
+}
+
+One branch returns immediately. The other executes a loop.
+
+**Question 5**
+
+function test(n) {\
+&#x20;   let arr = [];\
+&#x20;   for (let i = 0; i < n; i++) {\
+&#x20;       if (i % 2 === 0) arr.push(i);\
+&#x20;   }\
+&#x20;   return arr;\
+}
