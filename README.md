@@ -6180,3 +6180,180 @@ function test(n) {\
 &#x20;   }\
 &#x20;   return arr;\
 }
+
+# **Practice questions answers**
+
+# **Question 1: Conditional branches**
+
+```
+function test(n) {
+    if (n > 100) {
+        for (let i = 0; i < n; i++) console.log(i);
+    } else {
+        console.log(n);
+    }
+}
+```
+
+Best-case time: Θ(1)
+
+- When `n <= 100`, only one print statement executes.
+
+Worst-case time: Θ(n)
+
+- When `n > 100`, the loop executes `n` times.
+
+Auxiliary space: O(1)
+
+- Only the loop variable is used.
+
+# **Question 2: Break inside a loop**
+
+```
+function test(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === target) break;
+    }
+}
+```
+
+Best-case time: Θ(1)
+
+- The target is at the first position.
+- The loop stops after one iteration.
+
+Worst-case time: Θ(n)
+
+- The target is absent or at the last position.
+- The loop checks all elements.
+
+Auxiliary space: O(1)
+
+- Only the loop variable is used.
+
+# **Question 3: Fixed early termination**
+
+```
+function test(n) {
+    for (let i = 0; i < n; i++) {
+        if (i === 5) break;
+        console.log(i);
+    }
+}
+```
+
+Best-case time: Θ(1)
+
+Worst-case time: Θ(1)
+
+Reason:
+
+Consider different values of `n`.
+
+| n    | Iterations |
+| ---- | ---------- |
+| 2    | 2          |
+| 4    | 4          |
+| 5    | 5          |
+| 10   | 6          |
+| 100  | 6          |
+| 1000 | 6          |
+
+The loop never executes more than six iterations.
+
+Therefore:
+
+- Best case: Θ(1).
+- Worst case: Θ(1).
+- Auxiliary space: O(1).
+
+Important: A loop might look like O(n), but a fixed `break` condition can limit its iterations to a constant.
+
+# **Question 4: Immediate return in one branch**
+
+```
+function test(n) {
+    if (n % 2 === 0) {
+        return n;
+    }
+
+    for (let i = 0; i < n; i++) {
+        console.log(i);
+    }
+}
+```
+
+Best-case time: Θ(1)
+
+- When `n` is even, the function returns immediately.
+
+Worst-case time: Θ(n)
+
+- When `n` is odd, the loop executes `n` times.
+
+Auxiliary space: O(1)
+
+- Only one loop variable is used.
+
+# **Question 5: Conditional array insertion**
+
+```
+function test(n) {
+    let arr = [];
+
+    for (let i = 0; i < n; i++) {
+        if (i % 2 === 0) arr.push(i);
+    }
+
+    return arr;
+}
+```
+
+Best-case time: Θ(n)
+
+Worst-case time: Θ(n)
+
+Reason:
+
+- The loop always executes `n` times.
+- Only the even numbers are inserted.
+- Approximately half the elements are stored.
+- Each insertion takes amortized O(1) time.
+
+Total time:
+
+n * O(1) = O(n)
+
+Auxiliary space: O(n)
+
+Reason:
+
+For `n = 10`, the array stores:
+
+`[0, 2, 4, 6, 8]`
+
+For larger inputs, the array grows proportionally to `n`.
+
+Even though only half the elements are stored:
+
+n/2 =>  O(n)
+
+A constant factor does not change the asymptotic complexity.
+
+## **Final answer table**
+
+| Question | Best-case time | Worst-case time | Auxiliary space |
+| -------- | -------------- | --------------- | --------------- |
+| 1        | Θ(1)           | Θ(n)            | O(1)            |
+| 2        | Θ(1)           | Θ(n)            | O(1)            |
+| 3        | Θ(1)           | Θ(1)            | O(1)            |
+| 4        | Θ(1)           | Θ(n)            | O(1)            |
+| 5        | Θ(n)           | Θ(n)            | O(n)            |
+
+## **Five interview tricks from these questions**
+
+1. Alternative branches: Calculate each branch separately. Use the slowest branch for worst-case complexity.
+2. Early return: Check how many iterations happen before the return.
+3. Fixed break condition: A fixed iteration limit gives O(1), even if the loop condition contains `n`.
+4. Conditional insertion: Storing half the input still gives O(n) space.
+5. Separate calculations: Always calculate time and auxiliary space independently.
