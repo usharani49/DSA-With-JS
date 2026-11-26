@@ -3845,7 +3845,7 @@ Interviewers often ask for both. Practise stating them separately.
 
 The key lesson: An algorithm with good time complexity might still consume more memory. You need to evaluate both.
 
-# **Part 1. How to calculate space complexity**
+# **How to calculate space complexity**
 
 ## **What exactly is space complexity?**
 
@@ -4204,7 +4204,7 @@ function factorial(n) {
 
 Both take linear time. But recursion uses additional call stack memory.
 
-# **Part 2. Big O, Big Omega and Big Theta**
+# **Big O, Big Omega and Big Theta**
 
 Now let's understand what these three mathematical notations really mean.
 
@@ -4392,7 +4392,7 @@ Now answer these:
 
 Notice that the worst-case function is Θ(n), because it grows linearly from both sides.
 
-# **Part 3. Interview rules to remember**
+# **Interview rules to remember**
 
 | If you see...                            | Think about...          |
 | ---------------------------------------- | ----------------------- |
@@ -4407,7 +4407,7 @@ Notice that the worst-case function is Θ(n), because it grows linearly from bot
 | Lower growth bound                       | Big Omega               |
 | Matching upper and lower bounds          | Big Theta               |
 
-# **Part 4. Check your understanding**
+# **Check your understanding**
 
 **Space and asymptotic notation test**
 
