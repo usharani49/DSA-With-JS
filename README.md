@@ -5811,3 +5811,124 @@ function hasZero(arr) {\
 &#x20;   }\
 &#x20;   return false;\
 }
+
+## **Practice questions answers**
+
+## **Question A: Linear search**
+
+```
+function find(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === target) return true;
+    }
+    return false;
+}
+```
+
+Best case: Θ(1)
+
+- The target is at the first position.
+- Only one comparison is required.
+
+Worst case: Θ(n)
+
+- The target is at the last position or is absent.
+- The algorithm checks all `n` elements.
+
+Average case: Θ(n), assuming the target is equally likely to be at any position.
+
+Auxiliary space: O(1).
+
+## **Question B: Finding a negative number**
+
+```
+function check(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < 0) return true;
+    }
+    return false;
+}
+```
+
+Best case: Θ(1)
+
+Example:
+
+```
+arr = [-5, 10, 20, 30];
+```
+
+The first element is negative. The function returns immediately.
+
+Worst case: Θ(n)
+
+Example:
+
+```
+arr = [5, 10, 20, 30];
+```
+
+There are no negative numbers. The function checks every element.
+
+Average case: Θ(n), under the assumption that negative values are distributed across positions with a fixed, nonzero probability of appearing.
+
+Auxiliary space: O(1).
+
+## **Question C: Finding a pair whose sum is zero**
+
+```
+function hasZero(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] + arr[j] === 0) return true;
+        }
+    }
+    return false;
+}
+```
+
+Best case: Θ(1)
+
+Example:
+
+```
+arr = [0, 5, 10];
+```
+
+The first pair is `0 + 0`, so the function returns immediately.
+
+Worst case: Θ(n²)
+
+Example:
+
+```
+arr = [2, 4, 6, 8];
+```
+
+No pair sums to zero.
+
+- Outer loop: `n` iterations.
+- Inner loop: `n` iterations.
+- Total comparisons: `n × n = n²`.
+
+Average case: Θ(n²) under typical assumptions where a matching pair is absent or not found early.
+
+Auxiliary space: O(1).
+
+## **Summary**
+
+| Question           | Best case | Average case | Worst case | Auxiliary space |
+| ------------------ | --------- | ------------ | ---------- | --------------- |
+| A. Linear search   | Θ(1)      | Θ(n)         | Θ(n)       | O(1)            |
+| B. Negative search | Θ(1)      | Θ(n)\*       | Θ(n)       | O(1)            |
+| C. Zero-sum pair   | Θ(1)      | Θ(n²)\*      | Θ(n²)      | O(1)            |
+
+Average-case results depend on the input distribution and assumptions stated above.
+
+## **Important interview distinction**
+
+Remember these three terms:
+
+- Best case: Minimum operations for an input of size `n`.
+- Average case: Expected operations under a specified input distribution.
+- Worst case: Maximum operations for an input of size `n`.
