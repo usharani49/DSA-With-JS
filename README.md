@@ -5640,3 +5640,174 @@ Reason:
 3. Nested independent loops multiply their iteration counts.
 4. A fixed number of variables uses O(1) auxiliary space.
 5. Recursive space depends on maximum active recursion depth, not simply the total number of calls.
+
+# **Understanding input cases**
+
+An algorithm's execution time often depends on the input, not only its size.
+
+Consider searching for a number in an array.
+
+```
+function search(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === target) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+```
+
+Assume the array contains `n` elements.
+
+## **Best-case complexity**
+
+The target is at the first position.
+
+Example:
+
+```
+arr = [10, 20, 30, 40, 50];
+target = 10;
+```
+
+The algorithm finds the target immediately.
+
+- Comparisons: 1
+- Time complexity: Θ(1)
+
+Best case means the minimum work for an input of size `n`.
+
+## **Worst-case complexity**
+
+The target is at the last position or does not exist.
+
+Example:
+
+```
+arr = [10, 20, 30, 40, 50];
+target = 50;
+```
+
+The algorithm checks every element.
+
+- Comparisons: `n`
+- Time complexity: Θ(n)
+
+Worst case means the maximum work for an input of size `n`.
+
+## **Average-case complexity**
+
+Assume the target is equally likely to appear at any position.
+
+For an array of five elements:
+
+| Target position | Comparisons |
+| --------------- | ----------- |
+| First           | 1           |
+| Second          | 2           |
+| Third           | 3           |
+| Fourth          | 4           |
+| Fifth           | 5           |
+
+Average comparisons:
+
+(1+2+3+4+5)/5=3
+
+For `n` elements:
+
+(1+2+...+n)/n = (n+1)/2
+
+Therefore, average-case complexity is Θ(n).
+
+Average case depends on the assumed probability distribution of inputs. It is not always the midpoint between best and worst.
+
+## **Compare all three**
+
+| Case    | Work                          | Complexity |
+| ------- | ----------------------------- | ---------- |
+| Best    | 1 comparison                  | Θ(1)       |
+| Average | Approximately n/2 comparisons | Θ(n)       |
+| Worst   | n comparisons                 | Θ(n)       |
+
+Important: Best, average and worst describe different input situations. Big O, Omega and Theta describe mathematical bounds on a function.
+
+For example, the worst-case linear search function is Θ(n). It is also O(n) and Ω(n).
+
+## **Another example: Finding a pair**
+
+```
+function hasPair(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] + arr[j] === target) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+```
+
+Assume `n` elements.
+
+Best case:
+
+- The first pair matches.
+- Θ(1).
+
+Worst case:
+
+- No pair matches.
+- The algorithm checks every possible pair.
+- Number of pairs:
+
+(n *(n-1))/2
+
+Θ(n²).
+
+Average case:
+
+- Under typical assumptions where a matching pair is not guaranteed to appear early, the algorithm examines a number of pairs proportional to n².
+- Θ(n²).
+
+Auxiliary space: O(1).
+
+## **Practice questions**
+
+Try calculating the best-case and worst-case time complexity for each snippet.
+
+**Question A**
+
+function find(arr, target) {\
+&#x20;   for (let i = 0; i < arr.length; i++) {\
+&#x20;       if (arr[i] === target) return true;\
+&#x20;   }\
+&#x20;   return false;\
+}
+
+When does the function return immediately? When does it inspect every element?
+
+**Question B**
+
+function check(arr) {\
+&#x20;   for (let i = 0; i < arr.length; i++) {\
+&#x20;       if (arr[i] < 0) return true;\
+&#x20;   }\
+&#x20;   return false;\
+}
+
+Compare an array whose first element is negative with one containing no negative elements.
+
+**Question C**
+
+function hasZero(arr) {\
+&#x20;   for (let i = 0; i < arr.length; i++) {\
+&#x20;       for (let j = 0; j < arr.length; j++) {\
+&#x20;           if (arr[i] + arr[j] === 0) return true;\
+&#x20;       }\
+&#x20;   }\
+&#x20;   return false;\
+}
