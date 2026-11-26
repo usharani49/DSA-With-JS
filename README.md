@@ -4480,3 +4480,303 @@ O(n + k)
 O(n²)
 
 O(1)
+
+
+## **Answers to the previous assessment**
+
+| Question | Correct answer | Explanation                                                   |
+| -------- | -------------- | ------------------------------------------------------------- |
+| 1        | O(n)           | A new array stores n elements.                                |
+| 2        | O(1)           | Three fixed variables use constant extra memory.              |
+| 3        | O(n)           | Recursive calls decrease by one, creating linear stack depth. |
+| 4        | Θ(n²)          | The n² term dominates.                                        |
+| 5        | Ω              | Big Omega describes an asymptotic lower bound.                |
+| 6        | Θ(n)           | The function grows linearly.                                  |
+| 7        | O(n + k)       | Two arrays store n and k elements.                            |
+
+## **Big O vs Big Omega vs Big Theta**
+
+Let's use one mathematical function:
+
+f(n)=5n^2+3n+10
+
+Its complexity is:
+
+| Notation | Result | Why         |
+| -------- | ------ | ----------- |
+| O        | O(n²)  | Upper bound |
+| Ω        | Ω(n²)  | Lower bound |
+| Θ        | Θ(n²)  | Tight bound |
+
+Remember:
+
+- O gives an upper bound.
+- Ω gives a lower bound.
+- Θ gives a tight bound.
+
+A tight bound means both the upper and lower bounds have the same growth rate.
+
+## **Big O, Omega and Theta practice**
+
+These are additional problems specifically for these three notations.
+
+### **Mathematical expressions**
+
+**Question 1**
+
+f(n)=4n+10
+
+Find:
+
+- Big O
+- Big Omega
+- Big Theta
+
+Answer:
+
+- O(n)
+- Ω(n)
+- Θ(n)
+
+Reason: The linear term dominates.
+
+**Question 2**
+
+f(n)=3n^2+5n+7
+
+Answer:
+
+- O(n²)
+- Ω(n²)
+- Θ(n²)
+
+Reason: The quadratic term dominates.
+
+**Question 3**
+
+f(n)=8n^3+4n^2+2n+1
+
+Answer:
+
+- O(n³)
+- Ω(n³)
+- Θ(n³)
+
+Reason: The cubic term dominates.
+
+**Question 4**
+
+f(n)=6\log n+20
+
+Answer:
+
+- O(log n)
+- Ω(log n)
+- Θ(log n)
+
+Reason: The logarithmic term dominates the constant.
+
+### **Code-based questions**
+
+**Question 5. Linear search**
+
+```
+function search(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return true;
+    }
+  }
+
+  return false;
+}
+```
+
+Find the best-case and worst-case tight complexities.
+
+Answer:
+
+| Case  | Complexity | Explanation                               |
+| ----- | ---------- | ----------------------------------------- |
+| Best  | Θ(1)       | First element matches.                    |
+| Worst | Θ(n)       | Last element matches or target is absent. |
+
+For the worst-case function, O(n) and Ω(n) are both valid bounds, so Θ(n) is the tight bound.
+
+**Question 6. Binary search**
+
+```
+function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (arr[mid] === target) return mid;
+
+    if (arr[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return -1;
+}
+```
+
+Answer:
+
+| Case  | Complexity |
+| ----- | ---------- |
+| Best  | Θ(1)       |
+| Worst | Θ(log n)   |
+
+The search space gets divided in half each time.
+
+**Question 7. Nested loops**
+
+```
+function example(n) {
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      console.log(i, j);
+    }
+  }
+}
+```
+
+Answer:
+
+- Best: Θ(n²).
+- Worst: Θ(n²).
+- Upper bound: O(n²).
+- Lower bound: Ω(n²).
+
+Both loops always run their full iterations.
+
+### **Understand valid bounds versus tight bounds**
+
+This is where many candidates get confused.
+
+Consider:
+
+f(n)=5n^2+3n+10
+
+All these statements are mathematically valid:
+
+- O(n²)
+- O(n³)
+- O(n⁴)
+- Ω(n²)
+- Ω(n)
+- Ω(1)
+- Θ(n²)
+
+But these are not tight:
+
+- O(n³) is a valid but loose upper bound.
+- Ω(n) is a valid but loose lower bound.
+
+Θ(n²) gives the tight growth rate.
+
+**Question 8**
+
+For:
+
+f(n)=7n+12
+
+Which of these are valid?
+
+1. O(n)
+2. O(n²)
+3. Ω(n)
+4. Ω(1)
+5. Θ(n²)
+6. Θ(n)
+
+Answer:
+
+| Statement | Valid? | Explanation                     |
+| --------- | ------ | ------------------------------- |
+| O(n)      | Yes    | Tight upper bound               |
+| O(n²)     | Yes    | Loose upper bound               |
+| Ω(n)      | Yes    | Tight lower bound               |
+| Ω(1)      | Yes    | Loose lower bound               |
+| Θ(n²)     | No     | Growth is linear, not quadratic |
+| Θ(n)      | Yes    | Tight bound                     |
+
+## **More challenging questions**
+
+**O, Ω and Θ assessment**
+
+**1. f(n) = 9n⁴ + 3n² + 100. What is its tight bound?**
+
+Θ(n²)
+
+Θ(n³)
+
+Θ(n⁴)
+
+Θ(n⁵)
+
+**2. A function always executes a loop exactly n times. What is its tight time complexity?**
+
+Θ(1)
+
+Θ(log n)
+
+Θ(n)
+
+Θ(n²)
+
+**3. A search algorithm checks the first element and returns immediately if it matches. What is its best-case tight bound?**
+
+Θ(1)
+
+Θ(log n)
+
+Θ(n)
+
+Θ(n²)
+
+**4. Which is a valid upper bound for f(n) = 3n² + 2n?**
+
+O(n)
+
+O(n²)
+
+O(log n)
+
+O(1)
+
+**5. Which notation expresses matching upper and lower bounds?**
+
+O
+
+Ω
+
+Θ
+
+None
+
+**6. A loop runs from 1 to n, and its body always executes. What is the lower bound of its running time?**
+
+Ω(1) only
+
+Ω(log n) only
+
+Ω(n)
+
+Ω(n²)
+
+**7. For f(n) = 4n³ + n, which statement is false?**
+
+O(n³)
+
+Ω(n³)
+
+Θ(n³)
+
+Θ(n²)
