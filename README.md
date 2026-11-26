@@ -3844,3 +3844,639 @@ Interviewers often ask for both. Practise stating them separately.
 | Naive recursive Fibonacci      | O(2ⁿ) upper bound | O(n)            |
 
 The key lesson: An algorithm with good time complexity might still consume more memory. You need to evaluate both.
+
+# **Part 1. How to calculate space complexity**
+
+## **What exactly is space complexity?**
+
+Space complexity measures how much memory an algorithm requires as its input size increases.
+
+Consider this function:
+
+```
+function sum(arr) {
+  let total = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    total += arr[i];
+  }
+
+  return total;
+}
+```
+
+Suppose the array contains 5 elements.
+
+The function uses:
+
+- The input array.
+- One variable called `total`.
+- One loop variable called `i`.
+
+Now suppose the array contains 10,000 elements.
+
+The function still uses only two additional variables.
+
+Its additional memory does not grow with the input size.
+
+Therefore, its auxiliary space complexity is O(1).
+
+## **Understand input space versus auxiliary space**
+
+These are two important terms.
+
+| Term            | Meaning                                                                  |
+| --------------- | ------------------------------------------------------------------------ |
+| Input space     | Memory occupied by the input provided to the algorithm                   |
+| Auxiliary space | Extra memory used by the algorithm while processing the input            |
+| Total space     | Input space plus auxiliary space, under the chosen accounting convention |
+
+Consider:
+
+```
+function findMaximum(arr) {
+  let max = arr[0];
+
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+
+  return max;
+}
+```
+
+Assume the input array has `n` elements.
+
+- Input array: O(n).
+- Extra variables: O(1).
+- Auxiliary space: O(1).
+- Total space: O(n), counting the input array.
+
+Interview answer
+
+If an interviewer asks for auxiliary space, answer O(1). If they ask for total space including the input, state O(n).
+
+This distinction matters.
+
+## **A step-by-step method to calculate space complexity**
+
+Follow these five steps for every coding question.
+
+1. **Identify the input size**
+
+   Find the variable representing input size, usually `n`.
+2. **Identify additional variables**
+
+   Count variables and fixed-size objects. A fixed number of variables takes O(1) space.
+3. **Look for additional data structures**
+
+   Check whether the code creates arrays, objects, maps, sets, matrices or other collections.
+4. **Check recursive function calls**
+
+   Count the maximum number of simultaneously active function calls.
+5. **Combine the memory requirements**
+
+   Add the space used by independent allocations. Keep the dominant growth term.
+
+Let's apply this method.
+
+## **Space complexity examples**
+
+### **Example A: O(1), Constant space**
+
+```
+function calculate(arr) {
+  let total = 0;
+  let count = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    total += arr[i];
+    count++;
+  }
+
+  return total / count;
+}
+```
+
+Analysis:
+
+| Variable | Space |
+| -------- | ----- |
+| `total`  | O(1)  |
+| `count`  | O(1)  |
+| `i`      | O(1)  |
+
+There are three variables. Their number does not increase with `n`.
+
+O(1+1+1)=O(1)
+
+Answer: O(1) auxiliary space.
+
+Important: A loop does not automatically increase space complexity. It increases time complexity when it performs more iterations. The loop variables still occupy constant space.
+
+### **Example B: O(n), Linear space**
+
+```
+function createArray(n) {
+  const result = [];
+
+  for (let i = 0; i < n; i++) {
+    result.push(i);
+  }
+
+  return result;
+}
+```
+
+Analysis:
+
+- `result` stores `n` elements.
+- `i` occupies constant space.
+
+O(n+1)=O(n)
+
+Answer: O(n) auxiliary space.
+
+### **Example C: O(n²), Quadratic space**
+
+```
+function createMatrix(n) {
+  const matrix = [];
+
+  for (let i = 0; i < n; i++) {
+    matrix.push(new Array(n).fill(0));
+  }
+
+  return matrix;
+}
+```
+
+Suppose `n = 3`.
+
+The matrix contains:
+
+```
+0 0 0
+0 0 0
+0 0 0
+```
+
+Number of elements:
+
+3 * 3=9
+
+For general input size:
+
+n * n=n^2
+
+Answer: O(n²) auxiliary space.
+
+### **Example D: O(n + k), Space with two input sizes**
+
+```
+function createCollections(n, k) {
+  const first = new Array(n);
+  const second = new Array(k);
+
+  return [first, second];
+}
+```
+
+Analysis:
+
+- First array stores `n` elements.
+- Second array stores `k` elements.
+
+Total:
+
+O(n+k)
+
+Answer: O(n + k).
+
+Do not convert this into O(n) unless the relationship between `n` and `k` allows it.
+
+### **Example E: O(n²), But not because of nested loops**
+
+```
+function createPairs(arr) {
+  const pairs = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      pairs.push([arr[i], arr[j]]);
+    }
+  }
+
+  return pairs;
+}
+```
+
+This is an important interview example.
+
+The loops generate every unique pair.
+
+For an array of 4 elements:
+
+```
+(1,2)
+(1,3)
+(1,4)
+(2,3)
+(2,4)
+(3,4)
+```
+
+Number of pairs:
+
+(n(n-1))/2
+
+The function stores all those pairs.
+
+Answer:
+
+- Time: O(n²).
+- Auxiliary space: O(n²).
+
+Compare that with nested loops that only print the pairs. Those would use O(1) auxiliary space.
+
+The difference is whether the algorithm stores the results.
+
+## **5. How to calculate recursive space complexity**
+
+This is especially important for coding interviews.
+
+Remember our recursive function:
+
+```
+function countDown(n) {
+  if (n === 0) return;
+
+  countDown(n - 1);
+}
+```
+
+Call:
+
+```
+countDown(4);
+```
+
+The calls look like this before returning:
+
+**Call stack**
+
+`countDown(0)`
+
+Top of stack
+
+`countDown(1)`
+
+`countDown(2)`
+
+`countDown(3)`
+
+`countDown(4)`
+
+Each active function call occupies stack memory.
+
+There are approximately `n + 1` active calls.
+
+Therefore:
+
+- Time: O(n).
+- Auxiliary space: O(n).
+
+Now compare this function:
+
+```
+function divide(n) {
+  if (n <= 1) return;
+
+  divide(Math.floor(n / 2));
+}
+```
+
+For `n = 16`:
+
+```
+16 → 8 → 4 → 2 → 1
+```
+
+The maximum number of active calls grows logarithmically.
+
+- Time: O(log n).
+- Auxiliary space: O(log n).
+
+### **Important distinction**
+
+Consider two ways to calculate factorial.
+
+Recursive:
+
+```
+function factorial(n) {
+  if (n <= 1) return 1;
+
+  return n * factorial(n - 1);
+}
+```
+
+Iterative:
+
+```
+function factorial(n) {
+  let result = 1;
+
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+
+  return result;
+}
+```
+
+| Approach  | Time | Auxiliary space |
+| --------- | ---- | --------------- |
+| Recursive | O(n) | O(n)            |
+| Iterative | O(n) | O(1)            |
+
+Both take linear time. But recursion uses additional call stack memory.
+
+# **Part 2. Big O, Big Omega and Big Theta**
+
+Now let's understand what these three mathematical notations really mean.
+
+## **Why do we need three notations?**
+
+Suppose an algorithm processes an array of `n` elements.
+
+Depending on the input, it might:
+
+- Finish after checking one element.
+- Check several elements.
+- Check every element.
+
+We need a way to describe the upper, lower and tight growth bounds.
+
+That is where these notations come in.
+
+# **O(g(n))**
+
+**Big O, Upper bound**
+
+The algorithm's growth does not exceed a constant multiple of `g(n)` for sufficiently large input sizes.
+
+# **Ω(g(n))**
+
+**Big Omega, Lower bound**
+
+The algorithm's growth is at least a constant multiple of `g(n)` for sufficiently large input sizes.
+
+# **Θ(g(n))**
+
+**Big Theta, Tight bound**
+
+The algorithm's growth is bounded both above and below by constant multiples of `g(n)`.
+
+## **Understand using a mathematical example**
+
+Suppose an algorithm performs this many operations:
+
+f(n)=3n^2+5n+2
+
+For large values of `n`, the `n²` term dominates.
+
+So its tight growth rate is:
+
+Theta(n^2)
+
+It also belongs to these bounds:
+
+- O(n²), because n² is an upper bound.
+- Ω(n²), because n² is a lower bound.
+- Θ(n²), because both bounds match.
+
+It is also true that this function is O(n³) and Ω(n). Those are valid but less tight bounds.
+
+This is why Θ is useful. It gives the tightest growth category when the upper and lower bounds match.
+
+## **Understand using a real coding example**
+
+Consider linear search.
+
+```
+function search(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+```
+
+Assume the array has `n` elements.
+
+### **Best case**
+
+The target is the first element.
+
+```
+const arr = [10, 20, 30, 40, 50];
+search(arr, 10);
+```
+
+Only one comparison is needed.
+
+Time:
+
+Theta(1)
+
+### **Worst case**
+
+The target is the last element or is absent.
+
+```
+search(arr, 50);
+```
+
+or
+
+```
+search(arr, 100);
+```
+
+The algorithm checks all `n` elements.
+
+Time:
+
+Theta(n)
+
+### **Average case**
+
+Assume the target is equally likely to be at any position in the array.
+
+On average, the algorithm checks approximately half the elements.
+
+(n+1)/2
+
+Ignoring constants, the average-case time is:
+
+Theta(n)
+
+### **Summary**
+
+| Case    | Comparisons       | Tight complexity |
+| ------- | ----------------- | ---------------- |
+| Best    | 1                 | Θ(1)             |
+| Average | Approximately n/2 | Θ(n)             |
+| Worst   | n                 | Θ(n)             |
+
+This example is important because it connects the three notations to actual algorithm behaviour.
+
+## **Are Big O and worst case the same?**
+
+No. This is a common interview misunderstanding.
+
+There are two separate ideas:
+
+| Idea         | What it describes                              |
+| ------------ | ---------------------------------------------- |
+| Best case    | The most favourable input                      |
+| Average case | Expected behaviour under an input distribution |
+| Worst case   | The least favourable input                     |
+| Big O        | An asymptotic upper bound                      |
+| Big Omega    | An asymptotic lower bound                      |
+| Big Theta    | An asymptotically tight bound                  |
+
+You can apply Big O, Ω or Θ to a best-case, average-case or worst-case function.
+
+For example:
+
+- Linear search best-case time: Θ(1).
+- Linear search worst-case time: Θ(n).
+
+In interviews, when someone asks "What is the Big O?", they often expect worst-case time complexity. But you should identify the case instead of assuming the notation itself means worst case.
+
+## **One more example to test the distinction**
+
+```
+function findNumber(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return true;
+    }
+  }
+
+  return false;
+}
+```
+
+Suppose `n = 100`.
+
+- If the first element matches, one comparison.
+- If the last element matches, 100 comparisons.
+- If the target is missing, 100 comparisons.
+
+Now answer these:
+
+| Question               | Answer |
+| ---------------------- | ------ |
+| Best-case tight bound  | Θ(1)   |
+| Worst-case tight bound | Θ(n)   |
+| Worst-case upper bound | O(n)   |
+| Worst-case lower bound | Ω(n)   |
+
+Notice that the worst-case function is Θ(n), because it grows linearly from both sides.
+
+# **Part 3. Interview rules to remember**
+
+| If you see...                            | Think about...          |
+| ---------------------------------------- | ----------------------- |
+| Fixed number of variables                | O(1) auxiliary space    |
+| New array containing n elements          | O(n) auxiliary space    |
+| Matrix with n rows and n columns         | O(n²) auxiliary space   |
+| Recursive calls decreasing by 1          | O(n) stack space        |
+| Recursive calls halving the input        | O(log n) stack space    |
+| Algorithm always scans all n elements    | Θ(n) time               |
+| Algorithm might stop after first element | Best case might be Θ(1) |
+| Upper growth bound                       | Big O                   |
+| Lower growth bound                       | Big Omega               |
+| Matching upper and lower bounds          | Big Theta               |
+
+# **Part 4. Check your understanding**
+
+**Space and asymptotic notation test**
+
+**1. A function creates a new array containing n elements. What is its auxiliary space complexity?**
+
+O(1)
+
+O(log n)
+
+O(n)
+
+O(n²)
+
+**2. A function uses three variables and one loop. The loop runs n times. What is its auxiliary space complexity?**
+
+O(1)
+
+O(n)
+
+O(n²)
+
+O(log n)
+
+**3. A recursive function calls itself with n - 1 until it reaches zero. What is its maximum call-stack space?**
+
+O(1)
+
+O(log n)
+
+O(n)
+
+O(n²)
+
+**4. For f(n) = 4n² + 3n + 10, what is its tight asymptotic bound?**
+
+O(n)
+
+Θ(n²)
+
+Ω(n³)
+
+Θ(n)
+
+**5. What does Big Omega describe?**
+
+An upper bound
+
+A lower bound
+
+A tight bound only
+
+Exact execution time
+
+**6. An algorithm's worst-case running time is 7n + 4. Which is its tight bound?**
+
+Θ(1)
+
+Θ(log n)
+
+Θ(n)
+
+Θ(n²)
+
+**7. Two separate arrays have sizes n and k. The algorithm creates a copy of each. What is auxiliary space?**
+
+O(nk)
+
+O(n + k)
+
+O(n²)
+
+O(1)
