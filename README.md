@@ -4780,3 +4780,329 @@ O(n³)
 Θ(n³)
 
 Θ(n²)
+
+Here are the answers to all the questions from the previous practice set, with explanations.
+
+## **Answers to the 7-question assessment**
+
+1. An array contains `n` elements. A loop visits every element once.
+
+   Answer: O(n)
+
+   Reason: The number of operations grows linearly with the input size.
+2. A function uses three variables and no additional data structure.
+
+   Answer: O(1) auxiliary space.
+
+   Reason: The function uses a fixed amount of extra memory, regardless of input size.
+3. A function creates a new array containing `n` elements.
+
+   Answer: O(n) auxiliary space.
+
+   Reason: The additional array grows with the input size.
+4. Two nested loops each run `n` times.
+
+   Answer: Θ(n²), assuming both loops always complete all iterations.
+
+   Reason: The total iterations are \\(n \times n = n^2\\).
+5. What does Ω represent?
+
+   Answer: Asymptotic lower bound.
+
+   Reason: It describes a function's growth from below for sufficiently large input sizes.
+6. A loop runs exactly `n` times.
+
+   Answer: Θ(n).
+
+   Reason: Its growth has both an upper and a lower bound proportional to `n`.
+7. One array has `n` elements and another has `k` elements. Both are stored.
+
+   Answer: O(n + k) space.
+
+   Reason: The memory required by both arrays adds up.
+
+## **Big O, Omega and Theta questions**
+
+### **Question 1**
+
+f(n)=4n+10
+
+Answer:
+
+- O(n)
+- Ω(n)
+- Θ(n)
+
+Reason: The linear term dominates as `n` grows.
+
+### **Question 2**
+
+f(n)=3n^2+5n+7
+
+Answer:
+
+- O(n²)
+- Ω(n²)
+- Θ(n²)
+
+Reason: The quadratic term dominates the remaining terms.
+
+### **Question 3**
+
+f(n)=8n^3+4n^2+2n+1
+
+Answer:
+
+- O(n³)
+- Ω(n³)
+- Θ(n³)
+
+Reason: The cubic term dominates.
+
+### **Question 4**
+
+f(n)=6 log n+20
+
+Answer:
+
+- O(log n)
+- Ω(log n)
+- Θ(log n)
+
+Reason: The logarithmic term dominates the constant as `n` grows.
+
+### **Question 5: Linear search**
+
+You search for a value in an array of `n` elements.
+
+Best case:
+
+- The value is at the first position.
+- One comparison.
+- Θ(1).
+
+Worst case:
+
+- The value is at the last position or absent.
+- Up to `n` comparisons.
+- Θ(n).
+
+Average case:
+
+- Assuming the target is equally likely to be at any position, the expected number of comparisons grows proportionally to `n`.
+- Θ(n).
+
+### **Question 6: Binary search**
+
+You search for a value in a sorted array.
+
+Best case:
+
+- The middle element is the target.
+- Θ(1).
+
+Worst case:
+
+- The search space is repeatedly divided by two.
+- Θ(log n).
+
+Average case:
+
+\- Θ(log n), under the usual assumption of a target position distributed across the array.
+
+### **Question 7: Nested loops**
+
+```
+function example(n) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            console.log(i, j);
+        }
+    }
+}
+```
+
+Answer:
+
+- Best case: Θ(n²)
+- Worst case: Θ(n²)
+- Overall: Θ(n²)
+
+Reason: Neither loop exits early. Both execute all their iterations.
+
+### **Question 8: Valid and invalid bounds**
+
+Given:
+
+f(n)=7n+12
+
+Check each statement.
+
+| Bound | Valid? | Reason                  |
+| ----- | ------ | ----------------------- |
+| O(n)  | Yes    | Linear upper bound      |
+| O(n²) | Yes    | Loose upper bound       |
+| Ω(n)  | Yes    | Linear lower bound      |
+| Ω(1)  | Yes    | Constant lower bound    |
+| Θ(n²) | No     | Function grows linearly |
+| Θ(n)  | Yes    | Tight linear bound      |
+
+Important: A function can have several valid Big O and Omega bounds. Theta identifies its tight asymptotic growth.
+
+## **Space complexity practice answers**
+
+### **Question 1: Fixed variables**
+
+```
+function calculate(n) {
+    let sum = 0;
+    let count = 0;
+    let result = 1;
+
+    return sum + count + result + n;
+}
+```
+
+Answer: O(1) auxiliary space.
+
+Reason: Only a fixed number of variables are created.
+
+### **Question 2: New array**
+
+```
+function copyArray(arr) {
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        result.push(arr[i]);
+    }
+
+    return result;
+}
+```
+
+Answer: O(n) auxiliary space.
+
+Reason: The new array stores `n` elements.
+
+### **Question 3: Nested loops without storage**
+
+```
+function printPairs(n) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            console.log(i, j);
+        }
+    }
+}
+```
+
+Answer:
+
+- Time: Θ(n²)
+- Auxiliary space: O(1)
+
+Reason: The loops take quadratic time, but they create no data structure that grows with `n`.
+
+### **Question 4: Matrix**
+
+```
+function createMatrix(n) {
+    let matrix = [];
+
+    for (let i = 0; i < n; i++) {
+        let row = [];
+
+        for (let j = 0; j < n; j++) {
+            row.push(0);
+        }
+
+        matrix.push(row);
+    }
+
+    return matrix;
+}
+```
+
+Answer:
+
+- Time: Θ(n²)
+- Auxiliary space: O(n²)
+
+Reason: The matrix contains `n × n` elements.
+
+### **Question 5: Two arrays**
+
+```
+function combine(n, k) {
+    let first = new Array(n);
+    let second = new Array(k);
+
+    return [first, second];
+}
+```
+
+Answer: O(n + k) auxiliary space.
+
+Reason: The first array uses `n` spaces and the second uses `k` spaces.
+
+### **Question 6: Recursive countdown**
+
+```
+function countdown(n) {
+    if (n <= 0) {
+        return;
+    }
+
+    countdown(n - 1);
+}
+```
+
+Answer:
+
+- Time: Θ(n)
+- Auxiliary space: O(n)
+
+Reason: The function makes `n` recursive calls. Each call occupies a stack frame until the recursion reaches the base case.
+
+### **Question 7: Recursive binary search**
+
+Answer:
+
+- Time: O(log n) worst case.
+- Auxiliary space: O(log n) for a recursive implementation.
+
+Reason: Each recursive call reduces the search space by half. The maximum recursion depth grows logarithmically.
+
+## **Important rules to remember**
+
+| Concept         | Meaning                               |
+| --------------- | ------------------------------------- |
+| O(1)            | Constant growth                       |
+| O(log n)        | Logarithmic growth                    |
+| O(n)            | Linear growth                         |
+| O(n log n)      | Linearithmic growth                   |
+| O(n²)           | Quadratic growth                      |
+| O(2ⁿ)           | Exponential growth                    |
+| O(n!)           | Factorial growth                      |
+| Big O           | Upper bound                           |
+| Omega (Ω)       | Lower bound                           |
+| Theta (Θ)       | Tight bound                           |
+| Auxiliary space | Extra memory used by the algorithm    |
+| Input space     | Memory occupied by the input          |
+| Recursion stack | Memory used by active recursive calls |
+
+## **The calculation method you should follow**
+
+For every coding problem, use this sequence:
+
+1. Identify the input size. Is it `n`, `m`, `n × m`, or something else?
+2. Count how many times each loop executes.
+3. Add the costs of sequential operations.
+4. Multiply the costs of nested loops when their iteration counts are independent.
+5. Check whether loops stop early or divide the input.
+6. Identify every new array, object, map, set, or other data structure.
+7. Count recursive calls and maximum recursion depth.
+8. Separate auxiliary space from returned output space.
+9. Find the tight growth rate using Θ.
+10. State the required upper or lower bound using O or Ω.
