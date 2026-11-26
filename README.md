@@ -5106,3 +5106,340 @@ For every coding problem, use this sequence:
 8. Separate auxiliary space from returned output space.
 9. Find the tight growth rate using Θ.
 10. State the required upper or lower bound using O or Ω.
+
+# **Time and space complexity, practical calculations**
+
+## **First understand the difference**
+
+Consider this function:
+
+```
+function doubleArray(arr) {
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        result.push(arr[i] * 2);
+    }
+
+    return result;
+}
+```
+
+Assume the input array contains `n` elements.
+
+Time complexity:
+
+- The loop executes `n` times.
+- Each iteration performs constant-time work.
+- Total work grows proportionally to `n`.
+- Time complexity: Θ(n).
+
+Space complexity:
+
+- `result` stores `n` elements.
+- The loop variables use constant space.
+- The new array dominates memory usage.
+- Auxiliary space: O(n).
+
+Notice the difference:
+
+| Complexity      | Answer | Why                   |
+| --------------- | ------ | --------------------- |
+| Time            | Θ(n)   | Visits every element  |
+| Auxiliary space | O(n)   | Creates another array |
+
+A function might take O(n) time but O(1) extra space. Time and space must be calculated separately.
+
+## **In-place algorithms**
+
+An in-place algorithm modifies the original input instead of creating another data structure proportional to its size.
+
+Example:
+
+```
+function doubleArray(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = arr[i] * 2;
+    }
+
+    return arr;
+}
+```
+
+Assume `n` elements.
+
+Time complexity:
+
+- One loop.
+- `n` iterations.
+- Θ(n).
+
+Auxiliary space:
+
+- Only the loop variable `i` is added.
+- No new array is created.
+- O(1).
+
+Key interview point
+
+Both functions take Θ(n) time, but their auxiliary space differs.
+
+- First function: O(n) space.
+- Second function: O(1) space.
+
+Do not assume an array operation always needs O(n) extra space. Check whether it creates a new array or modifies the existing one.
+
+## **Nested loops with different limits**
+
+Consider this code:
+
+```
+function example(n) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            console.log(i, j);
+        }
+    }
+}
+```
+
+Many beginners see two loops and immediately answer O(n²). The answer happens to be right, but you should know how to calculate it.
+
+Let's count the iterations.
+
+| Outer loop `i` | Inner loop iterations |
+| -------------- | --------------------- |
+| 0              | 0                     |
+| 1              | 1                     |
+| 2              | 2                     |
+| 3              | 3                     |
+| 4              | 4                     |
+| ...            | ...                   |
+| n-1            | n-1                   |
+
+Total iterations:
+
+0+1+2+...+(n-1)
+
+Using the sum formula:
+
+n(n-1)/2
+
+Expand:
+
+(n^2-n)/2
+
+Ignore constants and lower-order terms:
+
+Theta(n^2)
+
+Space complexity:
+
+- Only `i` and `j` are used.
+- No additional data structure grows with `n`.
+
+Answer: O(1) auxiliary space.
+
+**Trick:** When the inner loop runs up to `i`, count the total iterations using a summation. Do not multiply the maximum iteration counts blindly.
+
+## **A logarithmic loop inside a linear loop**
+
+```
+function example(n) {
+    for (let i = 0; i < n; i++) {
+        let j = 1;
+
+        while (j < n) {
+            j = j * 2;
+        }
+    }
+}
+```
+
+Let's calculate it.
+
+Outer loop:
+
+- Executes `n` times.
+- Complexity: Θ(n).
+
+Inner loop:
+
+- Starts at 1.
+- Then 2, 4, 8, 16, 32...
+- Doubles every iteration.
+
+Suppose `n = 16`.
+
+The values of `j` are:
+
+`1 → 2 → 4 → 8 → 16`
+
+It takes approximately log_2 n iterations.
+
+Inner complexity: Θ(log n).
+
+Total complexity:
+
+n * log n
+
+Answer
+
+- Time: Θ(n log n).
+- Auxiliary space: O(1).
+
+**Trick:** An outer loop running `n` times and an inner loop doubling or halving its variable usually gives O(n log n).
+
+## **Two independent input sizes**
+
+```
+function compareArrays(arr1, arr2) {
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            console.log(arr1[i], arr2[j]);
+        }
+    }
+}
+```
+
+Let:
+
+- First array size = `n`.
+- Second array size = `k`.
+
+Outer loop: `n` iterations.
+
+Inner loop: `k` iterations.
+
+Total:
+
+n * k = nk
+
+Answer:
+
+- Time: Θ(nk).
+- Auxiliary space: O(1).
+
+Do not write O(n²) unless you know both input sizes are equal or have an appropriate relationship.
+
+## **Recursion and space complexity**
+
+Consider:
+
+```
+function factorial(n) {
+    if (n <= 1) {
+        return 1;
+    }
+
+    return n * factorial(n - 1);
+}
+```
+
+Let's trace `factorial(4)`.
+
+## **Recursive calls**
+
+1. `factorial(4)`
+
+   Waits for factorial(3)
+2. `factorial(3)`
+
+   Waits for factorial(2)
+3. `factorial(2)`
+
+   Waits for factorial(1)
+4. `factorial(1)`
+
+   Returns 1, the base case
+
+**Return sequence**
+
+- factorial(1) = 1
+- factorial(2) = 2 × 1 = 2
+- factorial(3) = 3 × 2 = 6
+- factorial(4) = 4 × 6 = 24
+
+Time complexity:
+
+- There are `n` recursive calls.
+- Each call performs constant work.
+- Θ(n).
+
+Space complexity:
+
+- Each active call occupies a stack frame.
+- Maximum active calls: `n`.
+- O(n) auxiliary space.
+
+Compare it with the iterative version:
+
+```
+function factorial(n) {
+    let result = 1;
+
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+
+    return result;
+}
+```
+
+- Time: Θ(n).
+- Auxiliary space: O(1).
+
+Both calculate factorial. Their time complexity is the same, but their auxiliary space differs.
+
+# **Practice questions**
+
+Try these five problems. For each one, calculate:
+
+1. Time complexity.
+2. Auxiliary space complexity.
+3. The reason for your answer.
+
+**Question 1**
+
+function test(n) {\
+&#x20;   for (let i = 1; i <= n; i++) {\
+&#x20;       console.log(i);\
+&#x20;   }\
+}
+
+**Question 2**
+
+function test(n) {\
+&#x20;   let arr = [];\
+&#x20;   for (let i = 0; i < n; i++) {\
+&#x20;       arr.push(i);\
+&#x20;   }\
+&#x20;   return arr;\
+}
+
+**Question 3**
+
+function test(n) {\
+&#x20;   for (let i = 1; i < n; i \*= 2) {\
+&#x20;       console.log(i);\
+&#x20;   }\
+}
+
+**Question 4**
+
+function test(n) {\
+&#x20;   for (let i = 0; i < n; i++) {\
+&#x20;       for (let j = 0; j < n; j++) {\
+&#x20;           for (let k = 0; k < 5; k++) {\
+&#x20;               console.log(i, j, k);\
+&#x20;           }\
+&#x20;       }\
+&#x20;   }\
+}
+
+**Question 5**
+
+function test(n) {\
+&#x20;   if (n <= 1) return;\
+&#x20;   test(Math.floor(n / 2));\
+}
