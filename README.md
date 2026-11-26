@@ -3704,3 +3704,145 @@ This produces O(n) total work.
 | `new Array(n * n)`         | O(n²)           | Stores n² elements       |
 | Recursive call depth n     | O(n)            | n active calls           |
 | Recursive call depth log n | O(log n)        | Logarithmic active calls |
+
+## **Space complexity**
+
+Space complexity is another area where interviewers expect clear reasoning.
+
+First, understand two terms.
+
+**Input space:** Memory occupied by the input provided to the algorithm.
+
+**Auxiliary space:** Additional memory used by the algorithm while processing the input.
+
+In many coding interviews, when someone asks for space complexity, they expect auxiliary space. State your convention clearly.
+
+### **Pattern 1: Constant auxiliary space, O(1)**
+
+```
+function sum(arr) {
+  let total = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    total += arr[i];
+  }
+
+  return total;
+}
+```
+
+Variables used:
+
+- `total`
+- `i`
+
+The function uses a fixed number of additional variables.
+
+Even if the array grows to one million elements, the number of extra variables stays the same.
+
+Auxiliary space: O(1).
+
+### **Pattern 2: Linear auxiliary space, O(n)**
+
+```
+function doubleValues(arr) {
+  const result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    result.push(arr[i] * 2);
+  }
+
+  return result;
+}
+```
+
+The new array grows with the input.
+
+If the input contains 100 elements, the result contains 100 elements.
+
+Auxiliary space: O(n).
+
+### **Pattern 3: Two additional arrays, O(n + k)**
+
+```
+function createResults(n, k) {
+  const first = new Array(n);
+  const second = new Array(k);
+
+  return [first, second];
+}
+```
+
+The function creates:
+
+- An array of size `n`.
+- An array of size `k`.
+
+Total auxiliary space: O(n + k).
+
+### **Pattern 4: Two-dimensional array, O(n²)**
+
+```
+function createMatrix(n) {
+  const matrix = [];
+
+  for (let i = 0; i < n; i++) {
+    matrix.push(new Array(n).fill(0));
+  }
+
+  return matrix;
+}
+```
+
+The matrix contains `n × n` elements.
+
+Auxiliary space: O(n²).
+
+### **Pattern 5: Recursive call stack, O(n)**
+
+```
+function countDown(n) {
+  if (n === 0) return;
+
+  countDown(n - 1);
+}
+```
+
+For `countDown(5)`, the function creates a chain of calls.
+
+For input `n`, the maximum active call depth is proportional to `n`.
+
+Auxiliary space: O(n).
+
+### **Pattern 6: Recursive call stack, O(log n)**
+
+```
+function divide(n) {
+  if (n <= 1) return;
+
+  divide(Math.floor(n / 2));
+}
+```
+
+Each call halves the input.
+
+The maximum call depth is proportional to log n.
+
+Auxiliary space: O(log n).
+
+## **Time and space complexity together**
+
+Interviewers often ask for both. Practise stating them separately.
+
+| Algorithm                      | Time              | Auxiliary space |
+| ------------------------------ | ----------------- | --------------- |
+| Access first array element     | O(1)              | O(1)            |
+| Find maximum in an array       | O(n)              | O(1)            |
+| Create a copy of an array      | O(n)              | O(n)            |
+| Compare every pair in an array | O(n²)             | O(1)            |
+| Binary search, iterative       | O(log n)          | O(1)            |
+| Binary search, recursive       | O(log n)          | O(log n)        |
+| Merge Sort on an array         | O(n log n)        | O(n)            |
+| Naive recursive Fibonacci      | O(2ⁿ) upper bound | O(n)            |
+
+The key lesson: An algorithm with good time complexity might still consume more memory. You need to evaluate both.
