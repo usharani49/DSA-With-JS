@@ -6967,3 +6967,400 @@ The difference is their purpose:
 - Object: General-purpose properties.
 - Map: Key-value collections.
 - Set: Unique values and membership checking.
+
+# **Mixed time and space complexity**
+
+You will analyse code containing multiple operations together.
+
+For every question, calculate:
+
+1. Best-case time complexity.
+2. Worst-case time complexity.
+3. Auxiliary space complexity.
+
+## **Question 1: Array search and insertion**
+
+```
+function process(arr, target) {
+    if (arr.includes(target)) {
+        arr.push(target);
+    }
+
+    return arr;
+}
+```
+
+Think about:
+
+- How long does `includes()` take?
+- What happens if the target is absent?
+- Does `push()` change the overall complexity?
+
+## **Question 2: Map and nested loops**
+
+```
+function process(arr) {
+    const map = new Map();
+
+    for (let i = 0; i < arr.length; i++) {
+        map.set(arr[i], i);
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            console.log(map.get(arr[i]), arr[j]);
+        }
+    }
+}
+```
+
+Think about:
+
+- How much time does building the Map take?
+- How much time do the nested loops take?
+- How much memory does the Map store?
+
+## **Question 3: Filtering and searching**
+
+```
+function process(arr) {
+    const result = arr.filter(x => x > 10);
+
+    return result.includes(50);
+}
+```
+
+Think about:
+
+- Does `filter()` visit every element?
+- How large can `result` become?
+- What is the worst-case cost of `includes()`?
+
+## **Question 4: Recursion and array creation**
+
+```
+function process(n) {
+    if (n <= 0) {
+        return [];
+    }
+
+    const result = process(n - 1);
+    result.push(n);
+
+    return result;
+}
+```
+
+Think about:
+
+- How many recursive calls happen?
+- How many elements are stored in the returned array?
+- How many recursive calls remain active at once?
+
+## **Question 5: Set with early return**
+
+```
+function process(arr) {
+    const seen = new Set();
+
+    for (let num of arr) {
+        if (seen.has(num)) {
+            return true;
+        }
+
+        seen.add(num);
+    }
+
+    return false;
+}
+```
+
+Think about:
+
+- When does the function return immediately?
+- What happens if all elements are unique?
+- How large does the Set become?
+
+# **Mixed time and space complexity answers**
+
+# **Question 1: Array search and insertion**
+
+```
+function process(arr, target) {
+    if (arr.includes(target)) {
+        arr.push(target);
+    }
+
+    return arr;
+}
+```
+
+Assume the array contains `n` elements.
+
+Best-case time: Θ(1)
+
+- The target is found at the first position.
+- `includes()` stops immediately.
+- `push()` takes amortized O(1).
+
+Worst-case time: Θ(n)
+
+- The target is at the last position or absent.
+- `includes()` might inspect all `n` elements.
+- `push()` adds at most one element and takes amortized O(1).
+
+Total:
+
+O(n)+O(1)=O(n)
+
+Auxiliary space: O(1).
+
+Reason: The existing array is modified. No separate array or growing data structure is created.
+
+# **Question 2: Map and nested loops**
+
+```
+function process(arr) {
+    const map = new Map();
+
+    for (let i = 0; i < arr.length; i++) {
+        map.set(arr[i], i);
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            console.log(map.get(arr[i]), arr[j]);
+        }
+    }
+}
+```
+
+Assume `n` elements.
+
+Step 1: Build the Map.
+
+```
+for (let i = 0; i < arr.length; i++) {
+    map.set(arr[i], i);
+}
+```
+
+- Executes `n` times.
+- Each Map insertion takes O(1) expected time.
+- Total: O(n) expected.
+
+Step 2: Nested loops.
+
+```
+for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length; j++) {
+        console.log(map.get(arr[i]), arr[j]);
+    }
+}
+```
+
+- Outer loop: `n` times.
+- Inner loop: `n` times.
+- Total: n × n = n².
+- Map lookup takes O(1) expected time.
+
+Step 3: Combine both parts.
+
+O(n)+O(n^2)=O(n^2)
+
+Answer
+
+- Best-case time: Θ(n²).
+- Worst-case time: Θ(n²).
+- Auxiliary space: O(n).
+
+Why is best-case also Θ(n²)?
+
+There is no early return or conditional exit. Both nested loops always complete.
+
+Why O(n) space?
+
+The Map stores up to `n` key-value entries.
+
+# **Question 3: Filtering and searching**
+
+```
+function process(arr) {
+    const result = arr.filter(x => x > 10);
+
+    return result.includes(50);
+}
+```
+
+Assume `n` elements.
+
+Step 1: Filter.
+
+```
+const result = arr.filter(x => x > 10);
+```
+
+- Visits all `n` elements.
+- Creates a new array.
+- Worst-case result size: `n`.
+- Time: Θ(n).
+- Additional space: O(n).
+
+Step 2: Search.
+
+```
+result.includes(50);
+```
+
+- Best case: Θ(1).
+- Worst case: O(n), if 50 is absent or at the end.
+
+Step 3: Combine.
+
+Best-case time: Θ(n).
+
+Even if `includes()` finds 50 immediately, `filter()` must first inspect every input element.
+
+Worst-case time: Θ(n).
+
+O(n)+O(n)=O(2n)=O(n)
+
+Auxiliary space: O(n).
+
+Reason: The filtered result array can contain all `n` elements.
+
+Important lesson: An operation that takes O(n) before an early-return operation still makes the overall best-case time O(n).
+
+# **Question 4: Recursion and array creation**
+
+```
+function process(n) {
+    if (n <= 0) {
+        return [];
+    }
+
+    const result = process(n - 1);
+    result.push(n);
+
+    return result;
+}
+```
+
+Suppose `n = 4`.
+
+Execution:
+
+**Recursive calls**
+
+1. `process(4)` calls `process(3)`
+2. `process(3)` calls `process(2)`
+3. `process(2)` calls `process(1)`
+4. `process(1)` calls `process(0)`
+5. `process(0)` returns `[]`
+
+**Returning from recursion**
+
+- process(1) returns `[1]`
+- process(2) returns `[1, 2]`
+- process(3) returns `[1, 2, 3]`
+- process(4) returns `[1, 2, 3, 4]`
+
+Time complexity:
+
+- There are `n` recursive calls.
+- Each call performs one `push()`.
+- Each push is amortized O(1).
+
+Therefore:
+
+Theta(n)
+
+Auxiliary space: O(n).
+
+Reason:
+
+- The recursion stack reaches depth `n`.
+- The returned array stores `n` elements.
+
+Important distinction:
+
+- Recursion stack: O(n).
+- Returned output array: O(n).
+- Total additional memory, including output: O(n).
+
+The array is built by modifying the same returned array. It does not create a separate array at every recursive level.
+
+# **Question 5: Set with early return**
+
+```
+function process(arr) {
+    const seen = new Set();
+
+    for (let num of arr) {
+        if (seen.has(num)) {
+            return true;
+        }
+
+        seen.add(num);
+    }
+
+    return false;
+}
+```
+
+Best-case time: Θ(1).
+
+Example:
+
+```
+arr = [10, 10, 20, 30];
+```
+
+Execution:
+
+- First 10 is added to Set.
+- Second 10 is already present.
+- Function returns immediately.
+
+Worst-case time: Θ(n).
+
+Example:
+
+```
+arr = [10, 20, 30, 40, 50];
+```
+
+Execution:
+
+- Every element is unique.
+- Every element is checked.
+- All elements are inserted into the Set.
+
+Total operations grow proportionally to `n`.
+
+Auxiliary space:
+
+- Best case: O(1).
+- Worst case: O(n).
+
+Reason: The Set stores elements until a duplicate is found. If all elements are unique, it stores all `n` elements.
+
+Average-case time depends on the distribution and placement of duplicates. Under common assumptions, it is O(n).
+
+# **Final answer sheet**
+
+| Question              | Best-case time | Worst-case time | Auxiliary space |
+| --------------------- | -------------- | --------------- | --------------- |
+| 1. includes + push    | Θ(1)           | Θ(n)            | O(1)            |
+| 2. Map + nested loops | Θ(n²)          | Θ(n²)           | O(n)            |
+| 3. filter + includes  | Θ(n)           | Θ(n)            | O(n)            |
+| 4. Recursion + array  | Θ(n)           | Θ(n)            | O(n)            |
+| 5. Set + early return | Θ(1)           | Θ(n)            | O(n) worst case |
+
+# **5 important lessons**
+
+1. Sequential operations: Add their time complexities.
+2. Nested loops: Multiply iteration counts.
+3. Early return: Check how much work happens before returning.
+4. Data structures: Count how many elements they store.
+5. Recursion: Count both recursive stack depth and any additional data structures.
