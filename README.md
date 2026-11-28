@@ -6665,3 +6665,305 @@ Consider the case where all elements are distinct.
 - Object and Map lookups: typically O(1) average.
 - Set lookup: typically O(1) average.
 - Mapping or filtering an array: O(n) time and O(n) result space.
+
+# **Practice questions answers**
+
+## **Question 1: includes()**
+
+```
+function test(arr) {
+    return arr.includes(100);
+}
+```
+
+Time complexity:
+
+- Best case: O(1), if the first element matches.
+- Worst case: O(n), if the value is last or absent.
+
+Auxiliary space: O(1).
+
+Reason: It searches the existing array without creating another array.
+
+## **Question 2: unshift()**
+
+```
+function test(arr) {
+    arr.unshift(10);
+    return arr;
+}
+```
+
+Time complexity: O(n).
+
+Reason:
+
+- A new element is inserted at the beginning.
+- Existing elements shift to the right.
+
+Auxiliary space: O(1) for the algorithm's explicit extra storage. The array's internal resizing and storage management are implementation-dependent.
+
+## **Question 3: map()**
+
+```
+function test(arr) {
+    return arr.map(x => x * 2);
+}
+```
+
+Time complexity: O(n).
+
+Reason:
+
+- Every element is visited once.
+
+Auxiliary/result space: O(n).
+
+Reason:
+
+- A new array is created with `n` elements.
+
+## **Question 4: Set**
+
+```
+function test(arr) {
+    const seen = new Set();
+
+    for (const x of arr) {
+        seen.add(x);
+    }
+
+    return seen;
+}
+```
+
+Time complexity: O(n) expected.
+
+Reason:
+
+- The loop executes `n` times.
+- Each Set insertion takes O(1) expected time.
+
+Auxiliary space: O(n).
+
+Reason:
+
+- In the worst case, all `n` values are unique.
+- The Set stores all of them.
+
+## **Question 5: Nested loops and duplicate search**
+
+```
+function test(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] === arr[j]) return true;
+        }
+    }
+
+    return false;
+}
+```
+
+Time complexity:
+
+Best case: O(1).
+
+- The first two elements match.
+- The function returns immediately.
+
+Worst case: O(n²).
+
+- All elements are distinct.
+- Every possible pair is checked.
+
+Total comparisons in the worst case:
+
+(n(n-1))/2
+
+Therefore:
+
+Theta(n^2)
+
+Auxiliary space: O(1).
+
+Reason:
+
+- Only two loop variables are used.
+- No additional data structure is created.
+
+# **Final answer table**
+
+| Question            | Time complexity     | Auxiliary space |
+| ------------------- | ------------------- | --------------- |
+| 1. includes()       | O(n) worst case     | O(1)            |
+| 2. unshift()        | O(n)                | O(1)            |
+| 3. map()            | O(n)                | O(n)            |
+| 4. Set insertion    | O(n) expected total | O(n)            |
+| 5. Duplicate search | O(n²) worst case    | O(1)            |
+
+# **One important distinction**
+
+Keep these three space terms separate:
+
+| Term            | Meaning                                    |
+| --------------- | ------------------------------------------ |
+| Input space     | Memory occupied by the input               |
+| Auxiliary space | Extra working memory used by the algorithm |
+| Output space    | Memory occupied by the returned result     |
+
+For example:
+
+```
+function double(arr) {
+    return arr.map(x => x * 2);
+}
+```
+
+- Input space: O(n).
+- Output space: O(n).
+- Auxiliary working space, excluding output: O(1).
+- Total additional memory including output: O(n).
+
+# **Understand JavaScript operation complexity**
+
+## **A. Array operations**
+
+Imagine an array with 1,000 elements.
+
+```
+let arr = [10, 20, 30, 40, 50];
+```
+
+| Operation          | What happens?                                | Time           |
+| ------------------ | -------------------------------------------- | -------------- |
+| `arr[2]`           | Directly accesses index 2                    | O(1)           |
+| `arr.push(60)`     | Adds at the end                              | O(1) amortized |
+| `arr.pop()`        | Removes from the end                         | O(1)           |
+| `arr.unshift(5)`   | Adds at the beginning, shifting elements     | O(n)           |
+| `arr.shift()`      | Removes the first element, shifting elements | O(n)           |
+| `arr.includes(30)` | Searches for a value                         | O(n)           |
+
+Remember:
+
+- Access by index is fast.
+- Adding or removing at the end is usually fast.
+- Adding or removing at the beginning requires shifting elements.
+- Searching requires checking elements.
+
+## **B. What does amortized O(1) mean?**
+
+This is important for `push()`.
+
+Suppose you keep adding elements:
+
+```
+let arr = [];
+
+arr.push(10);
+arr.push(20);
+arr.push(30);
+arr.push(40);
+```
+
+Usually, JavaScript adds an element to the available storage.
+
+But sometimes the internal storage is full. The engine needs to allocate larger storage and move existing elements.
+
+So:
+
+- Most individual `push()` operations take O(1).
+- Occasionally, one operation takes O(n).
+- Across many insertions, the average cost per insertion remains O(1).
+
+This is called amortized O(1).
+
+For interviews, remember:
+
+`push()` = O(1) amortized.
+
+## **C. Why do map, filter and slice use O(n) space?**
+
+Consider:
+
+```
+let arr = [1, 2, 3, 4, 5];
+
+let result = arr.map(x => x * 2);
+```
+
+The result is a new array:
+
+```
+[2, 4, 6, 8, 10]
+```
+
+Original array:
+
+- 5 elements.
+
+New array:
+
+- 5 elements.
+
+If the original array contains `n` elements, the new array contains `n` elements.
+
+Therefore:
+
+- Time: O(n).
+- Additional result space: O(n).
+
+Compare this with:
+
+```
+arr.forEach(x => console.log(x));
+```
+
+This visits all elements but doesn't create a new result array.
+
+- Time: O(n).
+- Auxiliary space: O(1), assuming the callback doesn't allocate growing storage.
+
+## **D. Object vs Map vs Set**
+
+Understand their purposes.
+
+**Object: Stores key-value pairs**
+
+```
+const user = {
+    name: "Rahul",
+    age: 25
+};
+```
+
+Access: `user.name`
+
+**Map: Stores key-value pairs**
+
+```
+const scores = new Map();
+scores.set("Rahul", 90);
+scores.set("Amit", 85);
+```
+
+Access: `scores.get("Rahul")`
+
+**Set: Stores unique values**
+
+```
+const numbers = new Set();
+numbers.add(10);
+numbers.add(20);
+numbers.add(10);
+```
+
+Result: `{10, 20}`
+
+Typical average lookup time for all three is O(1), subject to the operation and JavaScript implementation.
+
+The difference is their purpose:
+
+- Object: General-purpose properties.
+- Map: Key-value collections.
+- Set: Unique values and membership checking.
