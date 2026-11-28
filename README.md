@@ -6357,3 +6357,311 @@ A constant factor does not change the asymptotic complexity.
 3. Fixed break condition: A fixed iteration limit gives O(1), even if the loop condition contains `n`.
 4. Conditional insertion: Storing half the input still gives O(n) space.
 5. Separate calculations: Always calculate time and auxiliary space independently.
+
+# **JavaScript operation complexity**
+
+## **Array operations**
+
+Assume an array contains `n` elements.
+
+| Operation             | Typical time complexity | Explanation                         |
+| --------------------- | ----------------------- | ----------------------------------- |
+| `arr[i]`              | O(1)                    | Direct index access                 |
+| `arr[i] = value`      | O(1)                    | Direct index update                 |
+| `arr.push(value)`     | O(1) amortized          | Usually adds at the end             |
+| `arr.pop()`           | O(1)                    | Removes the last element            |
+| `arr.unshift(value)`  | O(n)                    | Shifts existing elements            |
+| `arr.shift()`         | O(n)                    | Shifts remaining elements           |
+| `arr.includes(value)` | O(n)                    | May scan every element              |
+| `arr.indexOf(value)`  | O(n)                    | Linear search                       |
+| `arr.slice()`         | O(n)                    | Copies elements                     |
+| `arr.map()`           | O(n)                    | Visits every element                |
+| `arr.filter()`        | O(n)                    | Checks every element                |
+| `arr.reduce()`        | O(n)                    | Processes every element             |
+| `arr.sort()`          | Typically O(n log n)    | Depends on implementation and input |
+
+Note: `push` is amortized O(1), not guaranteed O(1) for every individual call. Occasionally, JavaScript must resize the underlying storage.
+
+## **Why are&#x20;**`push`**&#x20;and&#x20;**`unshift`**&#x20;different?**
+
+Consider:
+
+```
+let arr = [10, 20, 30, 40];
+arr.push(50);
+```
+
+push()
+
+**10**
+
+**20**
+
+**30**
+
+**40**
+
+**50**
+
+Adds one element at the end
+
+# **O(1) amortized**
+
+Now consider:
+
+```
+let arr = [10, 20, 30, 40];
+arr.unshift(5);
+```
+
+unshift()
+
+**5**
+
+**10**
+
+**20**
+
+**30**
+
+**40**
+
+Existing elements shift to make room
+
+# **O(n)**
+
+The same shifting issue occurs with `shift()`.
+
+## **Object operations**
+
+JavaScript objects store key-value pairs.
+
+```
+const user = {
+    name: "Rahul",
+    age: 25,
+    city: "Hyderabad"
+};
+```
+
+| Operation              | Typical average time |
+| ---------------------- | -------------------- |
+| `user.name`            | O(1)                 |
+| `user.age = 26`        | O(1)                 |
+| `delete user.city`     | O(1) average         |
+| `"name" in user`       | O(1) average         |
+| `Object.keys(user)`    | O(n)                 |
+| `Object.values(user)`  | O(n)                 |
+| `Object.entries(user)` | O(n)                 |
+
+These are typical average-case expectations for object property access. They are not strict guarantees for every JavaScript engine or pathological case.
+
+## **Map and Set operations**
+
+A Map stores key-value pairs. A Set stores unique values.
+
+```
+const map = new Map();
+
+map.set("name", "Rahul");
+map.set("age", 25);
+
+console.log(map.get("name"));
+```
+
+```
+const set = new Set();
+
+set.add(10);
+set.add(20);
+set.add(10);
+
+console.log(set.has(20));
+```
+
+| Operation      | Typical average time |
+| -------------- | -------------------- |
+| `map.set()`    | O(1)                 |
+| `map.get()`    | O(1)                 |
+| `map.has()`    | O(1)                 |
+| `map.delete()` | O(1)                 |
+| `set.add()`    | O(1)                 |
+| `set.has()`    | O(1)                 |
+| `set.delete()` | O(1)                 |
+
+These average-case operations make Maps and Sets useful for fast lookups.
+
+## **String operations**
+
+Strings are immutable in JavaScript. This means string operations create new strings rather than modifying the original string.
+
+| Operation             | Typical time complexity                       |
+| --------------------- | --------------------------------------------- |
+| `str[i]`              | O(1)                                          |
+| `str.length`          | O(1)                                          |
+| `str.includes("abc")` | O(n)                                          |
+| `str.indexOf("a")`    | O(n)                                          |
+| `str.slice()`         | O(n)                                          |
+| `str.split("")`       | O(n)                                          |
+| `str.toUpperCase()`   | O(n)                                          |
+| `str1 + str2`         | Depends on string lengths, typically O(n + m) |
+
+Here, `n` and `m` represent the lengths of the strings.
+
+Example:
+
+```
+let name = "Google";
+let result = name.toUpperCase();
+```
+
+- Original string: `"Google"`
+- New string: `"GOOGLE"`
+- Time: O(n)
+- Additional space: O(n) for the resulting string.
+
+## **Important array methods in coding interviews**
+
+Understand the difference between these methods.
+
+```
+const numbers = [1, 2, 3, 4, 5];
+
+const a = numbers.slice(1, 3);
+const b = numbers.filter(num => num > 2);
+const c = numbers.map(num => num * 2);
+```
+
+| Method     | Result             | Time | Additional space |
+| ---------- | ------------------ | ---- | ---------------- |
+| `slice()`  | `[2, 3]`           | O(n) | O(n)             |
+| `filter()` | `[3, 4, 5]`        | O(n) | O(n)             |
+| `map()`    | `[2, 4, 6, 8, 10]` | O(n) | O(n)             |
+
+These methods create new arrays.
+
+Compare with:
+
+```
+numbers.forEach(num => console.log(num));
+```
+
+- Time: O(n).
+- Auxiliary space: O(1), excluding anything stored or allocated by the callback.
+
+## **Interview example: Find duplicates**
+
+Suppose you receive an array and need to identify duplicate numbers.
+
+Approach 1: Nested loops.
+
+```
+function hasDuplicate(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] === arr[j]) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+```
+
+- Best-case time: O(1).
+- Worst-case time: O(n²).
+- Auxiliary space: O(1).
+
+Approach 2: Use a Set.
+
+```
+function hasDuplicate(arr) {
+    const seen = new Set();
+
+    for (let num of arr) {
+        if (seen.has(num)) {
+            return true;
+        }
+
+        seen.add(num);
+    }
+
+    return false;
+}
+```
+
+- Best-case time: O(1), if the first two elements are duplicates.
+- Worst-case time: O(n), assuming average O(1) Set operations.
+- Auxiliary space: O(n).
+
+Interview insight
+
+The Set approach improves worst-case time from O(n²) to O(n), at the cost of additional memory.
+
+This is a common interview trade-off: time versus space.
+
+# **Practice questions**
+
+Calculate time and auxiliary space for each problem.
+
+**Question 1**
+
+function test(arr) {\
+&#x20;   return arr.includes(100);\
+}
+
+Consider the worst case when the value is absent.
+
+**Question 2**
+
+function test(arr) {\
+&#x20;   arr.unshift(10);\
+&#x20;   return arr;\
+}
+
+Consider what happens to the existing elements.
+
+**Question 3**
+
+function test(arr) {\
+&#x20;   return arr.map(x => x \* 2);\
+}
+
+The method visits all elements and creates a result array.
+
+**Question 4**
+
+function test(arr) {\
+&#x20;   const seen = new Set();\
+&#x20;   for (const x of arr) {\
+&#x20;       seen.add(x);\
+&#x20;   }\
+&#x20;   return seen;\
+}
+
+How many elements can the Set store?
+
+**Question 5**
+
+function test(arr) {\
+&#x20;   for (let i = 0; i < arr.length; i++) {\
+&#x20;       for (let j = i + 1; j < arr.length; j++) {\
+&#x20;           if (arr[i] === arr[j]) return true;\
+&#x20;       }\
+&#x20;   }\
+&#x20;   return false;\
+}
+
+Consider the case where all elements are distinct.
+
+## **What you should remember**
+
+- Array access by index: O(1).
+- Array search: O(n).
+- Adding at the end: O(1) amortized.
+- Adding at the beginning: O(n).
+- Creating a new array of `n` elements: O(n) space.
+- Object and Map lookups: typically O(1) average.
+- Set lookup: typically O(1) average.
+- Mapping or filtering an array: O(n) time and O(n) result space.
